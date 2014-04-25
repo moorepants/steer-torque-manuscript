@@ -24,10 +24,6 @@
 % http://www.tug.org/pipermail/pdftex/2012-March/008806.html
 \pdfobjcompresslevel=0
 
-
-\author{Jason K. Moore and Mont Hubbard}
-
-
 \begin{document}
 \begin{flushleft}
   {\Large
@@ -180,19 +176,6 @@ the steer torque sensor from any of the non-axial torques and all forces
 transmitted through the handlebar or ground contact with a zero backlash
 telescoping double universal joint, Figure~\ref{fig:steer-torque-design}.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=3in]{figures/steer-torque-design.png}
-  \caption{The steer torque sensor isolation design. The handlebars attach to
-    the stem which is mounted in the upper bearings. The fork and steer tube
-    are mounted in the normal headset of the bicycle. Between these two sets of
-    bearings the stem is connected to the steer tube via the torque sensor and a
-    zero backlash telescoping double universal joint. The steer angle and rate
-    are measured at the steer tube and rate and acceleration of the rear frame
-    are collected with the IMU.}
-  \label{fig:steer-torque-design}
-\end{figure}
-
 \section*{Steer Dynamics}
 \label{sec:steer-dynamics}
 
@@ -208,23 +191,6 @@ acting on the handlebar about the steer axis are the measured torque $T_M$ the
 rider applied steer torque $T_\delta$ and the friction from the upper bearing
 set $T_U$ which we describe by the sum of Coulomb $T_{U_F}$ and viscous
 friction $T_{U_V}$.
-
-\begin{figure}
-  \centering
-  \includegraphics{figures/handlebar-free-body.pdf}
-  \caption{A free body diagram of the handlebar, $G$, with all axial torques
-    shown. The rear frame $B$ has arbitrary orientation with respect to the
-    Newtonian reference frame $N$. The handlebar rotates about $\hat{b}_3$ with
-    respect to the rear frame. Gravity $g$ is in the $\hat{n}_3$ direction. The
-    rider applies forces to the handlebars, resulting in a component of torque
-    $T_\delta$ about the steer axis. This torque is resisted by the upper
-    bearing friction $T_U$, the measured torque at the sensor $T_M$, the
-    inertia of the handlebar, and the gravitational force acting on the
-    handlebar center of mass $g_o$. The three distances, $d$, $d_s1$, and
-    $d_s3$ locate the handlebar center of mass with respect to the center of
-    the IMU.}
-  \label{fig:handlebar-free-body}
-\end{figure}
 
 We measure three components of body fixed angular rate of the rear frame $B$ in
 the Newtonian reference frame $N$ with three rate gyros. This is written as
@@ -417,22 +383,7 @@ in the upper and lower bearings are equal, $T_U = T_B / 2$, due to
 indeterminacy of the upper and lower bearing friction individually; see
 \cite{Moore2012} for details.
 
-\begin{figure}
-  \centering
-  \includegraphics{figures/steer-torque-components.pdf}
-  \caption{Steer torque measurements and the computed compensation for Trial \#
-    700.}
-  \label{fig:steer-torque-components}
-\end{figure}
-
 \section*{Steer Torque Predictions}
-
-\begin{figure}
-  \centering
-  \includegraphics{figures/error-stats.pdf}
-  \caption{Histograms of the three statistics for all 359 trials.}
-  \label{fig:error-stats}
-\end{figure}
 
 Using the equations described in section \ref{sec:steer-dynamics} and the
 estimates for the upper bearing friction in \ref{sec:bearing-friction} we
@@ -446,20 +397,6 @@ determination (i.e. $R^2$) between the compensated and uncompensated torques.
 Outliers outside of $\pm2 \sigma$ were excluded from the results. Figure
 \ref{fig:error-stats} shows the distribution of these statistics. The median
 values of the three statistics are given in Table~\ref{tab:medians}.
-
-\begin{table}
-  \caption{The median and maximum value of the error statistics.}
-  \centering
-  \begin{tabular}{lrr}
-    \hline
-    Statistic                    & Median   & Maximum \\
-    \hline
-    Coefficient of Determination & 0.728814 & 0.822647 \\
-    Maximum Error                & 2.446387 & 6.588228 \\
-    RMS of the Errors            & 0.466733 & 0.899118
-  \end{tabular}
-  \label{tab:medians}
-\end{table}
 
 \section*{Discussion}
 
@@ -500,28 +437,69 @@ review.
 \bibliography{references}
 
 \section*{Figure Legends}
-%\begin{figure}[!ht]
-%\begin{center}
-%%\includegraphics[width=4in]{figure_name.2.eps}
-%\end{center}
-%\caption{
-%{\bf Bold the first sentence.}  Rest of figure 2  caption.  Caption
-%should be left justified, as specified by the options to the caption
-%package.
-%}
-%\label{Figure_label}
-%\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=3in]{figures/steer-torque-design.png}
+  \caption{{\bf The steer torque sensor isolation design.} The handlebars attach to
+    the stem which is mounted in the upper bearings. The fork and steer tube
+    are mounted in the normal headset of the bicycle. Between these two sets of
+    bearings the stem is connected to the steer tube via the torque sensor and a
+    zero backlash telescoping double universal joint. The steer angle and rate
+    are measured at the steer tube and rate and acceleration of the rear frame
+    are collected with the IMU.}
+  \label{fig:steer-torque-design}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics{figures/handlebar-free-body.pdf}
+  \caption{{\bf A free body diagram of the handlebar, $G$, with all axial torques
+    shown.} The rear frame $B$ has arbitrary orientation with respect to the
+    Newtonian reference frame $N$. The handlebar rotates about $\hat{b}_3$ with
+    respect to the rear frame. Gravity $g$ is in the $\hat{n}_3$ direction. The
+    rider applies forces to the handlebars, resulting in a component of torque
+    $T_\delta$ about the steer axis. This torque is resisted by the upper
+    bearing friction $T_U$, the measured torque at the sensor $T_M$, the
+    inertia of the handlebar, and the gravitational force acting on the
+    handlebar center of mass $g_o$. The three distances, $d$, $d_s1$, and
+    $d_s3$ locate the handlebar center of mass with respect to the center of
+    the IMU.}
+  \label{fig:handlebar-free-body}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics{figures/steer-torque-components.pdf}
+  \caption{{\bf Steer torque measurements and the computed compensation for Trial \#
+    700.}}
+  \label{fig:steer-torque-components}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics{figures/error-stats.pdf}
+  \caption{{\bf Histograms of the three statistics for all 359 trials.}}
+  \label{fig:error-stats}
+\end{figure}
 
 \section*{Tables}
-%\begin{table}[!ht]
-%\caption{
-%\bf{Table title}}
-%\begin{tabular}{|c|c|c|}
-%table information
-%\end{tabular}
-%\begin{flushleft}Table caption
-%\end{flushleft}
-%\label{tab:label}
-% \end{table}
+
+\begin{table}[!ht]
+  \caption{{\bf The median and maximum value of the error statistics.}}
+  \centering
+  \begin{tabular}{lrr}
+    \hline
+    Statistic                    & Median   & Maximum \\
+    \hline
+    Coefficient of Determination & 0.728814 & 0.822647 \\
+    Maximum Error                & 2.446387 & 6.588228 \\
+    RMS of the Errors            & 0.466733 & 0.899118
+  \end{tabular}
+  \begin{flushleft}
+    Table caption
+  \end{flushleft}
+  \label{tab:medians}
+\end{table}
 
 \end{document}
