@@ -1,24 +1,51 @@
-\documentclass[a4paper]{article}
+\documentclass[10pt]{article}
 
-\usepackage{graphicx}
 \usepackage{amsmath}
-\usepackage[margin=2.5cm]{geometry}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{color}
+\usepackage{setspace}
+\doublespacing
+\topmargin 0.0cm
+\oddsidemargin 0.5cm
+\evensidemargin 0.5cm
+\textwidth 16cm
+\textheight 21cm
+\usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+\date{}
+\pagestyle{myheadings}
 
 % This file will not open in Acrobat Reader 9.x.
 % This is an attempted fix:
 % http://www.tug.org/pipermail/pdftex/2012-March/008806.html
 \pdfobjcompresslevel=0
 
-\title{Methods for elimination of crosstalk and inertial effects in bicycle and
-motorcycle steer torque estimation}
 
 \author{Jason K. Moore and Mont Hubbard}
 
-\date{September 30, 2013}
 
 \begin{document}
+\begin{flushleft}
+  {\Large
+  \textbf{Methods for elimination of crosstalk and inertial effects in bicycle and
+  motorcycle steer torque estimation}
+  }
+  \\
+  Jason K. Moore$^{1,\ast}$,
+  Mont Hubbard$^{2}$
+  \\
+  \bf{1} Mechanical Engineering, Cleveland State University, Cleveland, Ohio, USA
+  \\
+  \bf{2} Mechanical and Aerospace Engineering, University of California at Davis, Davis, California, USA
+  \\
+  $\ast$ E-mail: Corresponding j.kmoore19@csuohio.edu
+\end{flushleft}
 
-\maketitle
+\section*{Abstract}
 
 \section*{Introduction}
 
@@ -469,7 +496,32 @@ Grant No. 0928339. Thanks to Peter de Lange for developing the bearing friction
 experimental protocol and analysis and to Ton van den Bogert for comments and
 review.
 
-\bibliographystyle{plain}
+\bibliographystyle{plos2009}
 \bibliography{references}
+
+\section*{Figure Legends}
+%\begin{figure}[!ht]
+%\begin{center}
+%%\includegraphics[width=4in]{figure_name.2.eps}
+%\end{center}
+%\caption{
+%{\bf Bold the first sentence.}  Rest of figure 2  caption.  Caption
+%should be left justified, as specified by the options to the caption
+%package.
+%}
+%\label{Figure_label}
+%\end{figure}
+
+\section*{Tables}
+%\begin{table}[!ht]
+%\caption{
+%\bf{Table title}}
+%\begin{tabular}{|c|c|c|}
+%table information
+%\end{tabular}
+%\begin{flushleft}Table caption
+%\end{flushleft}
+%\label{tab:label}
+% \end{table}
 
 \end{document}
