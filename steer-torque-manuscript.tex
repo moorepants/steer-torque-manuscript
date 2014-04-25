@@ -49,14 +49,15 @@ To control a bicycle or motorcycle, the rider's primary means of directing the
 vehicle is to apply forces to the handlebars which cause the front frame to
 rotate relative to the rear frame. The rider can, of course, also use other
 more subtle biomechanical motions to influence motion of vehicles, especially
-lighter-weight ones, but it is known that forces applied to the handlebar give
-much more control authority than other means regardless of the vehicle's
+lighter-weight ones, but it is well known that forces applied to the handlebar
+give much more control authority than other means regardless of the vehicle's
 inertia \cite{Sharp2007,Sharp2008a}.
 
-From a modeling perspective, it is generally easier to model the interface
-forces as a single torque about the steer axis which acts between the front and
-rear frames. The rider can be assumed to be part of the rear frame, regardless
-of whether rider is assumed to be rigid or not.
+From a single track vehicle modeling perspective, it is generally easier to
+model the human/machine interface forces as a single torque about the steer
+axis which acts between the front and rear frames. The rider can be assumed to
+be part of the rear frame, regardless of whether rider is assumed to be rigid
+or not.
 
 Due to this modeling assumption and ease of measurement, most experimental
 measurements of the interface forces between the rider and the front frame are
@@ -71,7 +72,7 @@ small ($<$~20 Nm or so).
 In this paper we review previous methods of steer torque measurement in
 bicycles and motorcycles and detail the design and implementation of a bicycle
 steer torque measurement system which minimizes the aforementioned cross talk
-errors. We then show the computations needed to correctly compensate for
+errors. We then give the computations needed to correctly compensate for
 inertial effects of the front frame and bearing friction to obtain a more
 accurate estimate of the rider applied steer torque. Finally, to show the need
 for this approach, we compare the differences between uncompensated and
@@ -84,32 +85,33 @@ The earliest steer torque measurements were performed in 1951. Wilson-Jones
 rubber bushings that indicated the direction and value of torque in an analog
 fashion in real time. He demonstrated that a negative torque is applied with
 respect the steering angle to enter into a turn and measured torques in normal
-maneuvers in the 4 to 14 Nm range. Not long after this Kondo \cite{Kondo1955}
-was the first to record torque measurements on a motorcycle for post-experiment
-analysis. Work in Japan on motorcycle dynamics grew considerably after World
-War II due to sanctions on aircraft research. Kageyama \cite{Kageyama1959} and
-Fu \cite{Fu1965} continued to improve steer torque measurements in motorcycles
-and further studied steady turning. Eaton \cite{Eaton1973} was the first to
-measure and record motorcycle steer torque in the United States. He attached a
-third handle bar above the regular handlebars with strain gages that produced
-voltage proportional to the applied torque around the steer axis while the
-rider operated the motorcycle with one hand. He measured steer torques up to
-3.4 Nm for straight riding for speeds of 15 to 30 mph. This led him to conclude
-that most of the steer torque was due to rider remnant, as opposed to
-deliberate control. Not long after this, Weir \cite{Weir1979a} developed a
-modular torque sensor which could be affixed to multiple motorcycles with a
-$\pm$ 70 Nm range and a 1\% accuracy with a 10 Hz bandwidth and was careful to
-reduce crosstalk from other forces applied to the handlebars. They
-unfortunately oversized the sensor and the signal to noise ratio was low for
-steady turn and straight riding maneuvers, but they measured torques of -20 to
-55 Nm in lane changes. Sugizaki \cite{Sugizaki1988} also measured steer torque
-in high speed motorcycle lane change maneuvers and recorded torques between -20
-and 20 Nm.
+maneuvers are in the 4 to 14 Nm range. Not long after this Kondo \cite{Kondo1955}
+was the first to record torque measurements electronically on a motorcycle for
+post-experiment analysis. Work in Japan on motorcycle dynamics grew
+considerably after World War II due to sanctions on aircraft research. Kageyama
+\cite{Kageyama1959} and Fu \cite{Fu1965} continued to improve steer torque
+measurements in motorcycles and studied torques in steady turning.
+
+Eaton \cite{Eaton1973} was the first to measure and record motorcycle steer
+torque in the United States. He attached an additional handle bar above the regular
+handlebars with strain gages that produced voltage proportional to the applied
+torque around the steer axis while the rider operated the motorcycle with one
+hand. He measured steer torques up to 3.4 Nm for straight riding for speeds of
+15 to 30 mph. This led him to conclude that most of the measured steer torque
+was due to rider remnant, as opposed to deliberate control. Not long after
+this, Weir \cite{Weir1979a} developed a modular torque sensor which could be
+affixed to multiple motorcycles with a $\pm$ 70 Nm range and a 1\% accuracy
+with a 10 Hz bandwidth and was careful to reduce crosstalk from other forces
+applied to the handlebars. They unfortunately oversized the sensor and the
+signal to noise ratio was low for steady turn and straight riding maneuvers,
+but they measured torques of -20 to 55 Nm in lane changes. Sugizaki
+\cite{Sugizaki1988} also measured steer torque in high speed motorcycle lane
+change maneuvers and recorded torques between -20 and 20 Nm.
 
 After years of motorcycle steer torque measurements, the first bicycle
 measurements were made by de Lorenzo \cite{Lorenzo1997} on a downhill mountain
 bicycle which was fitted with a custom strain gauged handlebar that could
-effectively measure torque about the longitudinal axis and the vertical axis.
+effectively measure torques about the bicycle's longitudinal and vertical axes.
 His plot of torque measurements show maximum steer torques of 7 Nm and maximum
 longitudinal handlebar torques of 15 Nm which demonstrated that non-steer
 related forces on the handlebars can be significantly higher that those needed
@@ -120,8 +122,10 @@ a successful motorcycle steer torque transducer in which floating handlebars
 engage the fork through a small strain-gaged cantilever beam. This design was
 less susceptible to crosstalk than earlier designs. They found torques up to
 20 Nm for slalom maneuvers at 40 m/s. Around the same time, James
-\cite{James2002} developed a secondary handlebar with integrated load cell to
-measure steer torques in an off-road motorcycle.
+\cite{James2002} developed a secondary handlebar with an integrated load cell
+to measure steer torques in an off-road motorcycle for the purposes of
+identifying the a model that relates steer torque inputs to vehicle kinematical
+ouputs.
 
 In 2003, Cheng \cite{Cheng2003} completed a comprehensive study on bicycle
 steer torque for an undergraduate project. Cheng started by simply attaching a
@@ -130,7 +134,7 @@ found that most steering torques were under 5 Nm. He then designed a floating
 handlebar which engaged the steer tube via a linear load cell, configured to
 measure torques of 0 to 84 Nm. Cheng found torques up to 1 Nm for steady
 turning at 4.5 m/s and up to 10 Nm for sharp turns, confirming that bicycles
-require much lower torques for maneuvering.
+require much lower torques for maneuvering than motorcycles.
 
 Iuchi \cite{Iuchi2006} constructed a bicycle with a steer motor that ``senses''
 the rider's input for use in additive control. The rider applied steer torque
@@ -139,42 +143,70 @@ inertia. Capitani \cite{Capitani2006} found measured steer torques from an
 instrumented scooter between -15 and 40 Nm. Evertse \cite{Evertse2010} was
 perhaps the only person to estimate steer torque from sensors in the handle
 grips of a motorcycle that give force measurements directly at the
-human-vehicle interface. During the test maneuvers, a maximum of 40 Nm was
+human-vehicle interface. During his test maneuvers, a maximum of 40 Nm was
 observed. In 2010, Teerhuis \cite{Teerhuis2010} shows measured torques just
 under 20 Nm for a motorcycle in slalom maneuvers.
 
 Recently, Cain \cite{Cain2012} developed an in-the-steer-tube torque sensor for
 a bicycle. The measured steer torques in steady turns never exceed 2.4 Nm but
 he admits that his sensor was 90\% oversized. And most recently, van den Ouden
-\cite{Ouden2011} developed a steer torque sensor sensor that was susceptible to
-cross talk from other handlebar loads but had an appropriate measurement range
-of $\pm7.5$ Nm.
+\cite{Ouden2011} developed a bicycle steer torque sensor sensor that was
+susceptible to cross talk from other handlebar loads but had an appropriate
+measurement range of $\pm7.5$ Nm.
 
 Steering torque has been measured in relatively few instances of bicycle
-experiments and not many more for motorcycles. Of these, very few of the
-designs may actually measure the true rider applied steer torque. This is more
-consequential for bicycles than motorcycles because the small torques used in
-typical bicycle control are of the order of 5-10 Nm. van den Ouden
-\cite{Ouden2011}, in particular, showed how sensitive the torque measurements
-are to other handlebar loads. Also, most of these designs measure the torque
-somewhere between the rider hands and the ground contact point. This is a
-physically ideal way to measure the steer torque, but apparently no one has
-accounted for the dynamic inertial effects of the front frame above or below
-the sensor, except Iuchi \cite{Iuchi2006}. Evertse \cite{Evertse2010} may
-have the only design which mitigates this inertial compensation issue
-completely.
+experiments and not that many more for motorcycles. Of these, very few of the
+designs may actually measure the true rider applied steer torque, as is defined
+in most models. This is more consequential for bicycles than motorcycles
+because the small torques used in typical bicycle control are of the order of
+5-10 Nm. van den Ouden \cite{Ouden2011}, in particular, showed how sensitive
+the torque measurements are to other handlebar loads. Also, most of these
+designs measure the torque somewhere between the rider's hands and the ground
+contact point of the wheel. This is a physically ideal way to measure the steer
+torque, but apparently no one has accounted for the dynamic inertial effects of
+the front frame above or below the sensor, except Iuchi \cite{Iuchi2006}.
+Evertse \cite{Evertse2010} may have the only design which mitigates this
+inertial compensation issue completely.
+
+% TODO : Add Kageyama's design from his robot motorcycle
+% TODO : Add Lukes robot motor?
+% TODO : Add Arend's steer by wire bicycle.
+
+\section*{Classification of Steer Torque Designs}
+
+The various designs can be classified in into
+
+\begin{description}
+  \item[Mechanical] The rider applies a torque to the causes a needle to indicate
+  \item[Simple Strain Gages] Strain gages are applied to the vehicles stock
+    handlebars, typically near or on the steer column
+  \item[Floating handlebar with inline torque transducer] The handlebars are
+    separated from the fork, each mounted in bearings, and the two are
+    connected by and inline force transducer.
+  \item[Floating handlebar with linear transducer] The handlebars are separated
+    from the fork, each mounted in bearings, and the two are connected through
+    a linear force transducer.
+  \item[Floating handlebar with cantilever transducer] The handlebars are separated
+    from the fork, each mounted in bearings, and the two are connected through
+    a cantilever beam force transducer.
+  \item[Load cells in the grips]
+  \item[Estimated from motor power]
+\end{description}
 
 With this information in hand we designed a steer torque measurement system for
 a bicycle that accounts for the deficiencies in previous designs.
 
 \section*{Isolated Steer Torque Measurement Design}
 
-Our design is based on a Futek 150 in-lb ($\pm 17$ Nm) TFF350 torque sensor to
-ensure high accuracy for the low torques used in normal bicycle maneuvering.
-To guarantee that torques are measured only about the steer axis we isolated
-the steer torque sensor from any of the non-axial torques and all forces
-transmitted through the handlebar or ground contact with a zero backlash
-telescoping double universal joint, Figure~\ref{fig:steer-torque-design}.
+Our design is based around a Futek (Irvine, CA, USA) 150 in-lb ($\pm 17$ Nm)
+TFF350 torque sensor to ensure high accuracy for the low torques used in normal
+bicycle maneuvering. To guarantee that torques are measured only about the
+steer axis, we isolated the steer torque sensor from any of the non-axial
+torques and all forces transmitted through the handlebar or ground contact with
+a zero backlash telescoping double universal joint,
+Figure~\ref{fig:steer-torque-design}.
+
+% TODO : Add universal joint company
 
 \section*{Steer Dynamics}
 \label{sec:steer-dynamics}
@@ -326,8 +358,8 @@ typical bicycle headset bearings. Each are preloaded a nominal amount during
 installation. We assume that the rotary friction due to each bearing set can be
 described as the sum of viscous $T_{Bv}$ and Coulomb friction $T_{Bc}$. The
 Coulomb friction can be described as a piecewise-constant function of the
-steering rate, Equation~\ref{eq:coulomb}, and viscous friction as linear in the
-steer rate, Equation~\ref{eq:viscous}.
+steering rate, Equation~\ref{eq:coulomb}, and viscous friction is a linear
+function of the steer rate, Equation~\ref{eq:viscous}.
 
 \begin{equation}
   T_{Bc} = t_B \operatorname{sgn}(\dot\delta) =
@@ -430,8 +462,9 @@ system design in production vehicles.
 
 This paper is based on work supported by the National Science Foundation under
 Grant No. 0928339. Thanks to Peter de Lange for developing the bearing friction
-experimental protocol and analysis and to Ton van den Bogert for comments and
-review.
+experimental protocol and analysis, Gilbert Gede and Mohammed Osman for
+assistance in constructions and design, and to Ton van den Bogert for comments
+and review.
 
 \bibliographystyle{plos2009}
 \bibliography{references}
