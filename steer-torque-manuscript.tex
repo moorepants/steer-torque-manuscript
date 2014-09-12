@@ -24,6 +24,8 @@
 % http://www.tug.org/pipermail/pdftex/2012-March/008806.html
 \pdfobjcompresslevel=0
 
+\usepackage{booktabs} % for table /toprule, /midrule, etc
+
 \begin{document}
 \begin{flushleft}
   {\Large
@@ -51,7 +53,7 @@ frame to rotate relative to the rear frame. The rider can, of course, also use
 other more subtle biomechanical motions to influence the motion of the vehicle,
 especially lighter-weight ones, but it is well known that force applied to the
 handlebar give much more control authority than other means
-\cite{Sharp2007,Sharp2008a}. % TODO: Maybe cite Weir too
+\cite{Aoki1979,Sharp2007,Sharp2008a}. % TODO: Maybe cite Weir too
 
 From a single track vehicle modeling perspective, it is generally easier to
 model the human/machine interface forces at the handlebar as a single torque
@@ -632,6 +634,39 @@ and review.
 \section*{Tables}
 
 \begin{table}[!ht]
+  \caption{Summary of Past Torque Measurments}
+  \begin{tabular}{llllllll}
+    \toprule
+    Citation                              &  Year &     Vehicle &              Type & Sensor Range [Nm] & Max Measured Torque [Nm] &                               Maneuvers & Speed [m/s] \\
+    \midrule
+    \cite{Wilson-Jones1951}               &  1951 &  motorcycle &  fixed-mechanical &                NR &                       14 &  steady circles, entering/exiting turns &          NR \\
+    \cite{Kondo1955}                      &  1955 &  motorcycle &                 ? &                 ? &                        ? &                   steady turns, turning &           ? \\
+    \cite{Watanabe1973}                   &  1973 &  motorcycle &                 ? &                 ? &                       10 &                                 evasive &          14 \\
+    \cite{Eaton1973}                      &  1973 &  motorcycle &      fixed-strain &                 ? &                      3.4 &     straight riding, roll stabilization &    6.7-13.4 \\
+    \cite{Weir1979a}                      &  1979 &  motorcycle &      float-torque &         -70 to 70 &                30 and 55 &          steady turning and lane change &        > 10 \\
+    \cite{Aoki}                           &  1979 &  motorcycle &                NR &                NR &                       98 &               straight, curving, slalom &       10-30 \\
+    \cite{Sugizaki1988}                   &  1988 &  motorcycle &                 ? &                 ? &                       20 &                 high speed lane changes &       17-28 \\
+    \cite{Lorenzo1997,Lorenzo1999}        &  1997 &     bicycle &      fixed-strain &       -500 to 500 &                        7 &                downhill mountain biking &         6-9 \\
+    \cite{Bortoluzzi2000,Biral2003}       &  2000 &  motorcycle &  float-cantilever &                 ? &                       20 &                  steady turning, slalom &        6-40 \\
+    \cite{James2002a,James2002,James2005} &  2002 &  motorcycle &      float-linear &         -30 to 30 &                       35 &                         straight riding &        2-19 \\
+    \cite{Cheng2003}                      &  2003 &     bicycle &  fixed-mechanical &                   &         5 (20 on 13 m/s) &                   90 degree right turns &        0-13 \\
+    \cite{Cheng2003}                      &  2003 &     bicycle &      float-linear &                84 &                 10 and 1 &          sharp turns and steady circles &         4.5 \\
+    \cite{Iuchi2006}                      &  2006 &     bicycle &       fixed-motor &                NR &                       12 &                        straight running &             \\
+    \cite{Capitani2006}                   &  2006 &     scooter &      fixed-strain &                NR &                       40 &                 lane change and turning &             \\
+    \cite{Evertse2010}                    &  2010 &  motorcycle &       fixed-grips &                   &                       40 &                       obstacle manuever &             \\
+    \cite{Teerhuis2010}                   &  2010 &  motorcycle &  float-cantilever &                NR &                       15 &                             steady turn &    8.3-12.5 \\
+    \cite{Teerhuis2010}                   &  2010 &  motorcycle &  float-cantilever &                NR &                       20 &                                  slalom &   16.4-18.1 \\
+    \cite{Ouden2011}                      &  2011 &     bicycle &  float-cantilever &                 5 &                        5 &               normal riding around town &             \\
+    \cite{Moore2012}                      &  2012 &     bicycle &  fixed-mechanical &                   &                        5 &          steady circles, lane changes,  &             \\
+    \cite{Cain2010,Cain2012}              &  2012 &     bicycle &      float-torque &    90\% oversized &                      2.4 &                            steady turns &             \\
+    \cite{Moore2012}                      &  2012 &     bicycle &      float-torque &                   &   reported in this paper &           straight riding, lane changes &             \\
+    \cite{Kageyama}                       &     ? &  motorcycle &         fixed-six &                   &                          &                                         &             \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:design}
+\end{table}
+
+\begin{table}[!ht]
   \caption{Maximum and minimum torques values for the different maneuvers.}
   \begin{tabular}{lrr}
     Maneuver & Maximum Torque [Nm] & Minimum Torque [Nm] \\
@@ -663,6 +698,8 @@ and review.
   \end{flushleft}
   \label{tab:medians}
 \end{table}
+
+
 
 
 \end{document}
