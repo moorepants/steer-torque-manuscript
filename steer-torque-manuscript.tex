@@ -30,8 +30,8 @@
 \begin{document}
 \begin{flushleft}
   {\Large
-  \textbf{Methods for elimination of crosstalk and inertial effects in bicycle and
-    motorcycle steer torque estimation}
+  \textbf{Methods for elimination of crosstalk and inertial effects in bicycle
+    steer torque estimation}
   }
   \\
   Jason K. Moore$^{1,\ast}$,
@@ -192,27 +192,28 @@ the rider's hands.
 
 \section*{Classification of Steer Torque Designs}
 
-The various designs can be classified into two major groups: (1) those which in
-which the handlebars the rider interacts with are essentially fixed to the
-front frame and (2) those in which the handlebars float with respect to the
-front frame.
+The various designs mentioned in the previous section can be classified into
+two major groups: (1) those which in which the handlebars the rider interacts
+with are essentially fixed to the front frame and (2) those in which the
+handlebars float with respect to the front frame. And both of these groups can
+further be categorized.
 
 \subsection*{Fixed Handlebar Designs}
 
 \begin{description}
   \item[Mechanical] The rider applies a force to the handlebar which causes a
-    needle to indicate the torque in real time.
-    \cite{Wilson-Jones1951,Cheng2003,Moore2012}
+    needle to indicate the torque in real
+    time.~\cite{Wilson-Jones1951,Cheng2003,Moore2012}
   \item[Simple Strain Gages] Strain gages are applied to the vehicles stock
-    handlebars, typically on the steer column, to maximize esimatetion of steer
-    torque. \cite{Eaton1973,Lorenzo1997}
+    handlebars, typically on the steer column, to maximize estimation of steer
+    torque.~\cite{Eaton1973,Lorenzo1997,Capitani2006}
   \item[Load cells in the grips] Multiple degree of freedom load cells connect
-    the handlebar grips to the handlebar. \cite{Evertse2010}
+    the handlebar grips to the handlebar.~\cite{Evertse2010}
   \item[Single load cell in steer column] A six degree of freedom load cell
-    connects the handlebars to the front frame. \cite{Kageyama?}
+    connects the handlebars to the front frame.~\cite{Kageyama?}
   \item[Estimated from motor power] An electrical motor connects the handlebars
     to the fork and the rider applied torque is estimated from motor current
-    and voltage. \cite{Iuchi2006}
+    and voltage.~\cite{Iuchi2006,Peterson2013,Schwab2013}
 \end{description}
 
 % TODO: The mechanical type is sorta floating and sorta not. Wilson-Jones is
@@ -222,72 +223,84 @@ front frame.
 \subsection*{Floating Handlebar Designs}
 
 The floating designs all share the common feature that the handlebars are
-connected to the front frame through a revolute joint algined with steer axis.
+connected to the front frame through a revolute joint aligned with steer axis
+and all of the forces and torques are transmitted between the handlebars and the
+front frame through a load cell of some sort.
 
 \begin{description}
   \item[Inline torque transducer] The handlebars are separated from the fork,
-    each mounted in bearings, and the two are connected by and inline force
-    transducer. \cite{Weir1979a,Cain2010,Cain2012,Moore2012}
+    each mounted in bearings, and the two are connected by an inline torque
+    transducer.~\cite{Weir1979a,Cain2010,Cain2012,Moore2012}
   \item[Linear transducer] The handlebars are separated from the fork, each
     mounted in bearings, and the two are connected through a linear force
-    transducer. \cite{James2002}
+    transducer.~\cite{Cheng2003,James2002,Teerhuis2010}
   \item[Cantilever transducer] The handlebars are separated from the fork, each
     mounted in bearings, and the two are connected through a cantilever beam
-    force transducer. \cite{Bortoluzzi2000,Biral2003,Teerhuis2010,Ouden2011}
+    force transducer.~ \cite{Bortoluzzi2000,Biral2003,Ouden2011}
 \end{description}
 
 % TODO: add all citations to these types.
 
-With this information in hand we designed a steer torque measurement system for
-a bicycle that accounts for the deficiencies in previous designs.
+With this information in hand we decided to frame our design around the
+floating handlebar concept with an inline torque transducer but in such a way
+that no cross talk could affect the measurement and the inertial effects of the
+structure between the rider's hands and the sensor were properly accounted for.
+But first, we did some exploratory experiments to determine the appropriate
+range of the sensor, as there was not enough data in the literature at the time
+for a confident choice.
 
 \section*{Estimations of Bicycle Steer Torque Range}
 
-Following in Wilson-Jones' \cite{Wilson-Jones1951} and Cheng’s \cite{Cheng2003}
-footsteps, we used an accurate torque wrench as the steer input to get an idea
-of the maximum torques we would see during our experiments. We designed a
-simple attachment to the steer tube that allowed easy connection of various
-torque wrenches, Figure \ref{fig:torque-wrench-instrumentation}. A small video
-camera was mounted to the bicycle such that it could view the dial indicator on
-the torque wrench, the handlebars, and and the digital speedometer relative to
-the bicycle frame, Figure \ref{fig:torque-wrench-instrumentation}. The torque
-wrench (CDI Torque Products 751LDIN) had a range of 1.7 Nm to 8.5 Nm and a
-$\pm2$\% accuracy of full scale ($\pm0.17$ Nm) for static measurements, Figure
-\ref{fig:torque-wrench-instrumentation}. The bicycle speed was maintained by an
-electric hub motor (i.e. no pedaling) with cruise control.
+Following in Wilson-Jones'~\cite{Wilson-Jones1951} and Cheng’s~\cite{Cheng2003}
+footsteps, we used an accurate torque wrench as an auxiliary handlebar to get
+an idea of the maximum torques we would see during a variety of maneuvers. We
+designed a simple attachment to the steer tube that allowed easy connection of
+3/8`` torque wrenches, Figure~\ref{fig:torque-wrench-instrumentation}. A small
+video camera was mounted to the bicycle such that it could view the dial
+indicator on the torque wrench, the handlebars, and the digital speedometer
+from a viewpoint relative to the bicycle frame,
+Figure~\ref{fig:torque-wrench-instrumentation}.  The torque wrench (CDI Torque
+Products 751LDIN) had a range of 1.7 Nm to 8.5 Nm and a accuracy of $\pm2$\% of
+full scale ($\pm0.17$ Nm) for static measurements,
+Figure~\ref{fig:torque-wrench-instrumentation}. The bicycle was a Surly 1 x 1
+and its speed was maintained by an electric hub motor (i.e. no pedaling) with
+cruise control.
 
 We recorded video data for two riders performing seven different maneuvers:
 
 \begin{itemize}
-  \item straight run into tracking a half circle of radius 6 and 10 meters
-  \item tracking a straight line
-  \item 2 meter lane change
-  \item slalom with 3 meter spacing
-  \item steady circle tracking of radius 5 and 10 meters.
+  \item straight run into tracking a both half circles of radius 6 and 10
+    meters,
+  \item tracking a straight line,
+  \item a 2 meter lane change,
+  \item a slalom with 3 meter spacing between obstacles,
+  \item and a steady circle tracking of both radius 5 and 10 meter circles.
 \end{itemize}
 
-After the experiments we viewed the videos and manually noted the maximum and
-minimum torques for each run. We subjectively ignored outlier high torque
-readings from abnormal accelerations, such as due to riding over bumps.
+After completing the experiments we viewed the videos and manually noted the
+maximum and minimum torques for each run. We subjectively ignored outlier high
+torque readings from abnormal accelerations, such as those due to riding over
+bumps.
 
 We recorded the run number, the rider’s estimate of the speed after the run in
 miles per hour, the maximum value stored on the torque wrench after the run,
 the rider’s name, the maneuver type, the minimum speed seen on the video
 footage in miles per hour, the maximum speed seen on the video footage in miles
-per hour, the maximum torque seen on the video footage in inch-lbs, the minimum
-torque seen on the video footage in Nm, and the rotation sense for each run (+
-for clockwise [right turn] and - for counter clockwise [left turn]). The raw
-data can be accessed via Figshare and the Internet Archive~\cite{}.
+per hour, the maximum torque seen on the video footage in inch-lbs, and the
+rotation sense for each run (+ for clockwise [right turn] and - for counter
+clockwise [left turn]). The raw data can be accessed via Figshare~\cite{}
+and the Internet Archive~\cite{}.
 
 The histogram, Figure \ref{fig:twrench-torque-histogram}, shows that the
 maximum torque in all runs never exceeded 5 Nm and Table
 \ref{tab:maneuver-torque-values} gives the maximum and minimum torques for each
 maneuver. Figure \ref{fig:twrench-torque-speed} shows all of the recorded
-torques as a function of speed. There may be an underlying dependency on speed,
-i.e. that the maximum torques decrease as speed decreases.
+torques as a function of speed. There is some indication that there may be an
+underlying dependency on speed, i.e. that the maximum torques decrease as speed
+decreases.
 
 From this data, we concluded that a torque sensor with a range of $\pm10$ Nm
-should provide an aqequate range with safety factor and still retain high
+should provide an adequate range with safety factor and still retain high
 enough accuracy.
 
 \section*{Isolated Steer Torque Measurement Design}
