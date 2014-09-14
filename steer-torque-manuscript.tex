@@ -364,37 +364,39 @@ friction $T_{U_V}$.
 
 We measure three components of body fixed angular rate of the bicycle rear
 frame $B$ in the Newtonian reference frame $N$ with the three IMU rate gyros.
-Using $\mathbf{b}_{123}$ as $B$'s unit vectors, this is expressed as
+Using $\mathbf{b}_{1},\mathbf{b}_{2},\mathbf{b}_{3}$ as $B$'s orthonormal unit
+vectors, this is expressed as
 %
 \begin{equation}
-  ^N\boldsymbol{\omega}^B = w_{b1}\hat{\mathbf{b}}_1 +
-                            w_{b2}\hat{\mathbf{b}}_2 +
-                            w_{b3}\hat{\mathbf{b}}_3
+  ^N\boldsymbol{\omega}^B = \omega_{b1}\hat{\mathbf{b}}_1 +
+                            \omega_{b2}\hat{\mathbf{b}}_2 +
+                            \omega_{b3}\hat{\mathbf{b}}_3
   \label{eq:rear-frame-angular-rate}
 \end{equation}
 
-The handlebar $G$ is connected to the bicycle frame $B$ by a revolute joint
-that rotates through the steering angle $\delta$ about the $\hat{\mathbf{g}_3}$
-axis and we measure a component of the body fixed inertial angular rate of the
-handlebar $w_{h3}$ about the steer axis with a rate gyro. The angular velocity
-of the handlebar can be written as
+The handlebar, frame $G$, is connected to the bicycle rear frame $B$ by a
+revolute joint that rotates through the steering angle $\delta$ about the
+$\hat{\mathbf{g}_3}$ axis and we measure both the steer angle with a
+potentiometer and a component of the body fixed inertial angular rate of the
+handlebar $\omega_{g3}$ about the steer axis with a rate gyro. The angular
+velocity of the handlebar can be written as
 %
 \begin{equation}
   ^N\boldsymbol{\omega}^G =
-    (w_{b1}c_\delta + w_{b2}s_\delta)\hat{\mathbf{g}}_1 +
-    (-w_{b1}s_\delta + w_{b2}c_\delta)\hat{\mathbf{g}}_2 +
-    w_{h3}\hat{\mathbf{g}}_3
+    (\omega_{b1}c_\delta + \omega_{b2}s_\delta)\hat{\mathbf{g}}_1 +
+    (-\omega_{b1}s_\delta + \omega_{b2}c_\delta)\hat{\mathbf{g}}_2 +
+    \omega_{g3}\hat{\mathbf{g}}_3
 \end{equation}
 %
 where $c_\delta$ and $s_\delta$ are shorthand for $\operatorname{cos}(\delta)$
 and $\operatorname{sin}(\delta)$ respectively.
 
-The steer rate, $\dot{\delta}$, can be computed by subtracting the angular rate
-of the bicycle rear frame about the steer axis from the angular rate of the
-handlebar about the steer axis.
+The steer rate, $\dot{\delta}$, can be computed from the measurments by
+subtracting the angular rate of the bicycle rear frame about the steer axis
+from the angular rate of the handlebar about the steer axis.
 %
 \begin{equation}
-  \dot{\delta} \hat{\mathbf{b}}_3 = w_{h3} \hat{\mathbf{b}}_3 - w_{b3} \hat{\mathbf{b}}_3
+  \dot{\delta} \hat{\mathbf{b}}_3 = \omega_{g3} \hat{\mathbf{b}}_3 - \omega_{b3} \hat{\mathbf{b}}_3
 \end{equation}
 
 Now we define a point $s$ on the steer axis a minimum distance $d$ from the
@@ -405,8 +407,8 @@ center of mass of the handlebar $g_o$.
 \end{equation}
 
 We also measure the body fixed acceleration of a point $v$ in $N$ on the
-bicycle frame which includes the acceleration due to gravity. This can be
-expressed as
+bicycle frame with the IMU accelerometers which includes the acceleration due
+to gravity. This can be expressed as
 %
 \begin{equation}
   ^N\mathbf{a}^v =
@@ -457,10 +459,10 @@ normal to $\hat{\mathbf{g}}_2$, simplifying the inertia dyadic to
     I_{G_{31}} \hat{\mathbf{g}}_3 \otimes \hat{\mathbf{g}}_1
 \end{equation}
 
-Now the dynamic equations of motion of the handlebar can be written: the sum of
-the torques on the handlebar about point $s$ is equal to the derivative of the
-angular momentum of $G$ in $N$ about $g_o$ plus the cross product of the vector
-from $s$ to $g_o$ with the mass times the acceleration of $g_o$ in $N$
+Now the dynamic equations of motion of the handlebar can be written as the sum
+of the torques on the handlebar about point $s$ is equal to the derivative of
+the angular momentum of $G$ in $N$ about $g_o$ plus the cross product of the
+vector from $s$ to $g_o$ with the mass times the acceleration of $g_o$ in $N$
 \cite{Meriam1975}. We neglect the gravitational torque because it is already
 accounted for in the measured linear acceleration,
 Equation~\ref{eq:acceleration-of-v}.
@@ -478,33 +480,61 @@ steer torque appears, so only the torques about the steer axis are examined.
   \mathbf{r}^{g_o/s} \times m_G\,{}^N\mathbf{a}^{g_o}\right) \cdot \hat{\mathbf{g}}_3
 \end{equation}
 
-At this stage the rider's applied steer torque, $T_\delta$, can be solved for
+At this stage the rider's applied steer torque, $T_\delta$, can be solved for,
+giving
 %
 \begin{align}
   T_{\delta} =
-    & I_{G_{22}} \left[ \left( -w_{b1} s_\delta + w_{b2} c_\delta \right)
-      c_\delta + w_{b2} s_\delta \right] + I_{G_{33}} \dot{w}_{g3} + \nonumber \\
-    & I_{G_{31}} \left[ (-w_{g3} + w_{b3} ) w_{b1} s_\delta +
-      (-w_{b3} + w_{g3}) w_{b2} c_\delta +
-      s_\delta \dot{w}_{b2} + c_\delta \dot{w}_{b1} \right] + \nonumber \\
-    & \left[ I_{G_{11}} (w_{b1} c_\delta + w_{b2}s_\delta) +
-      I_{G_{31}} w_{g3} \right] \left[-w_{b1} s_\delta +
-      w_{b2} c_\delta \right] + \nonumber \\
-    & d m_G \left[ d (-w_{b1} s_\delta + w_{b2} c_\delta)
-      (w_{b1} c_\delta + w_{b2} s_\delta) + d \dot{w}_{g3} \right] - \nonumber \\
-    & d m_G \left[-d_{s1} w_{b2}^{2} + d_{s3} \dot{w}_{b2} -
-      (d_{s1} w_{b3} - d_{s3} w_{b1}) w_{b3} + a_{v1} \right] s_\delta + \nonumber \\
-    & d m_G \left[d_{s1} w_{b1} w_{b2} + d_{s1} \dot{w}_{b3} +
-      d_{s3} w_{b2} w_{b3} - d_{s3} \dot{w}_{b1} + a_{v2} \right]
+    & I_{G_{22}} \left[ \left( -\omega_{b1} s_\delta + \omega_{b2} c_\delta \right)
+      c_\delta + \omega_{b2} s_\delta \right] + I_{G_{33}} \dot{\omega}_{g3} + \nonumber \\
+    & I_{G_{31}} \left[ (-\omega_{g3} + \omega_{b3} ) \omega_{b1} s_\delta +
+      (-\omega_{b3} + \omega_{g3}) \omega_{b2} c_\delta +
+      s_\delta \dot{\omega}_{b2} + c_\delta \dot{\omega}_{b1} \right] + \nonumber \\
+    & \left[ I_{G_{11}} (\omega_{b1} c_\delta + \omega_{b2}s_\delta) +
+      I_{G_{31}} \omega_{g3} \right] \left[-\omega_{b1} s_\delta +
+      \omega_{b2} c_\delta \right] + \nonumber \\
+    & d m_G \left[ d (-\omega_{b1} s_\delta + \omega_{b2} c_\delta)
+      (\omega_{b1} c_\delta + \omega_{b2} s_\delta) + d \dot{\omega}_{g3} \right] - \nonumber \\
+    & d m_G \left[-d_{s1} \omega_{b2}^{2} + d_{s3} \dot{\omega}_{b2} -
+      (d_{s1} \omega_{b3} - d_{s3} \omega_{b1}) \omega_{b3} + a_{v1} \right] s_\delta + \nonumber \\
+    & d m_G \left[d_{s1} \omega_{b1} \omega_{b2} + d_{s1} \dot{\omega}_{b3} +
+      d_{s3} \omega_{b2} \omega_{b3} - d_{s3} \dot{\omega}_{b1} + a_{v2} \right]
       c_\delta + \nonumber \\
     & T_U + T_M
+    \label{eq:steer-torque}
 \end{align}
 
-All time varying terms in $T_\delta$ are measured by on-board sensors or can be
-calculated with numerical differentiation except for the upper bearing
-frictional torque, $T_U$. We estimate this torque contribution through
-experiments described in the following section. The distance, mass, and inertia
-values are measured as described in \cite{Moore2012}.
+All for the variables which are constant with respect to time in can be
+measured directly, see Table~\ref{tab:numerical-constants} for the values.
+These distance, mass, and inertia values are measured as described in
+\cite{Moore2012}. All time varying terms in Equation~\ref{eq:steer-torque} are
+either measured directly by the on-board sensors or can be calculated with
+numerical differentiation. The only excepton is the upper bearing frictional
+torque, $T_U$. We estimate this torque contribution through experiments
+described in the following section.
+
+\begin{table}
+  \centering
+  \caption{Numerical values for the constant parameters in Equation
+    \ref{eq:steer-torque} for the instrumented bicycle used in the experiments.
+    These values were obtained by the measurements explained in
+    \cite{Moore2012}.}
+  \begin{tabular}{lll}
+    \toprule
+    Variable     & Value  & Unit \\
+    \midrule
+    $d$          & 0.963  & m\\
+    $d_{s1}$     & 0.135  & m \\
+    $d_{s3}$     & -0.360 & m \\
+    $m_G$        & 3.35   & kg \\
+    $I_{G_{11}}$ & 0.0497 & $kg \cdot m^2$ \\
+    $I_{G_{13}}$ & 0.0049 & $kg \cdot m^2$ \\
+    $I_{G_{22}}$ & 0.0174 & $kg \cdot m^2$ \\
+    $I_{G_{33}}$ & 0.0622 & $kg \cdot m^2$ \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:numerical-constants}
+\end{table}
 
 \section*{Estimation of Bearing Friction}
 \label{sec:bearing-friction}
