@@ -3,29 +3,13 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
-
-\usepackage{cite}
-\usepackage{color}
-\usepackage{setspace}
-\doublespacing
-\topmargin 0.0cm
-\oddsidemargin 0.5cm
-\evensidemargin 0.5cm
-\textwidth 16cm
-\textheight 21cm
-\usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
-\makeatletter
-\renewcommand{\@biblabel}[1]{\quad#1.}
-\makeatother
-\date{}
-\pagestyle{myheadings}
+\usepackage{booktabs} % for table /toprule, /midrule, etc
+\usepackage{pdflscape} % for the big table
 
 % This file will not open in Acrobat Reader 9.x.
 % This is an attempted fix:
 % http://www.tug.org/pipermail/pdftex/2012-March/008806.html
 \pdfobjcompresslevel=0
-
-\usepackage{booktabs} % for table /toprule, /midrule, etc
 
 \begin{document}
 \begin{flushleft}
@@ -45,6 +29,8 @@
 \end{flushleft}
 
 \section*{Abstract}
+
+% TODO : Write an abstract!
 
 \section*{Introduction}
 
@@ -249,6 +235,42 @@ But first, we did some exploratory experiments to determine the appropriate
 range of the sensor, as there was not enough data in the literature at the time
 for a confident choice.
 
+\begin{landscape}
+\begin{table}
+  \caption{Summary of Past Torque Measurments}
+  \small
+  \begin{tabular}{llllllll}
+    \toprule
+    Citation                              &  Year &     Vehicle &              Type & Sensor Range [Nm] & Max Measured Torque [Nm] &                               Maneuvers & Speed [m/s] \\
+    \midrule
+    \cite{Wilson-Jones1951}               &  1951 &  motorcycle &  fixed-mechanical &                NR &                       14 &  steady circles, entering/exiting turns &          NR \\
+    \cite{Kondo1955}                      &  1955 &  motorcycle &                 ? &                 ? &                        ? &                   steady turns, turning &           ? \\
+    \cite{Watanabe1973}                   &  1973 &  motorcycle &                 ? &                 ? &                       10 &                                 evasive &          14 \\
+    \cite{Eaton1973}                      &  1973 &  motorcycle &      fixed-strain &                 ? &                      3.4 &     straight riding, roll stabilization &    6.7-13.4 \\
+    \cite{Weir1979a}                      &  1979 &  motorcycle &      float-torque &         -70 to 70 &                30 and 55 &          steady turning and lane change &        > 10 \\
+    \cite{Aoki1979}                       &  1979 &  motorcycle &                NR &                NR &                       98 &               straight, curving, slalom &       10-30 \\
+    \cite{Sugizaki1988}                   &  1988 &  motorcycle &                 ? &                 ? &                       20 &                 high speed lane changes &       17-28 \\
+    \cite{Lorenzo1997,Lorenzo1999}        &  1997 &     bicycle &      fixed-strain &       -500 to 500 &                        7 &                downhill mountain biking &         6-9 \\
+    \cite{Bortoluzzi2000,Biral2003}       &  2000 &  motorcycle &  float-cantilever &                 ? &                       20 &                  steady turning, slalom &        6-40 \\
+    \cite{James2002a,James2002,James2005} &  2002 &  motorcycle &      float-linear &         -30 to 30 &                       35 &                         straight riding &        2-19 \\
+    \cite{Cheng2003}                      &  2003 &     bicycle &  fixed-mechanical &                   &         5 (20 on 13 m/s) &                   90 degree right turns &        0-13 \\
+    \cite{Cheng2003}                      &  2003 &     bicycle &      float-linear &                84 &                 10 and 1 &          sharp turns and steady circles &         4.5 \\
+    \cite{Iuchi2006}                      &  2006 &     bicycle &       fixed-motor &                NR &                       12 &                        straight running &             \\
+    \cite{Capitani2006}                   &  2006 &     scooter &      fixed-strain &                NR &                       40 &                 lane change and turning &             \\
+    \cite{Evertse2010}                    &  2010 &  motorcycle &       fixed-grips &                   &                       40 &                       obstacle manuever &             \\
+    \cite{Teerhuis2010}                   &  2010 &  motorcycle &  float-cantilever &                NR &                       15 &                             steady turn &    8.3-12.5 \\
+    \cite{Teerhuis2010}                   &  2010 &  motorcycle &  float-cantilever &                NR &                       20 &                                  slalom &   16.4-18.1 \\
+    \cite{Ouden2011}                      &  2011 &     bicycle &  float-cantilever &                 5 &                        5 &               normal riding around town &             \\
+    \cite{Moore2012}                      &  2012 &     bicycle &  fixed-mechanical &                   &                        5 &          steady circles, lane changes,  &             \\
+    \cite{Cain2010,Cain2012}              &  2012 &     bicycle &      float-torque &    90\% oversized &                      2.4 &                            steady turns &             \\
+    \cite{Moore2012}                      &  2012 &     bicycle &      float-torque &                   &   reported in this paper &           straight riding, lane changes &             \\
+    \cite{Kageyama}                       &     ? &  motorcycle &         fixed-six &                   &                          &                                         &             \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:design}
+\end{table}
+\end{landscape}
+
 \section*{Estimations of Bicycle Steer Torque Range}
 
 Following in Wilson-Jones'~\cite{Wilson-Jones1951} and Cheng’s~\cite{Cheng2003}
@@ -265,6 +287,19 @@ full scale ($\pm0.17$ Nm) for static measurements,
 Figure~\ref{fig:torque-wrench-instrumentation}. The bicycle was a Surly 1 x 1
 and its speed was maintained by an electric hub motor (i.e. no pedaling) with
 cruise control.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/torque-wrench-instrumentation.png}
+  \caption{{\bf The instrumentation used to measure steering torque.}
+    The left image depicts the steer tube attachment in which the torque wrench
+    is mounted. The middle image shows the torque wrench's dial indicator,
+    including the orange needle which gives the maximum torque value. The right
+    image shows the camera mount and the handlebars with torque wrench
+    installed.
+    }
+  \label{fig:torque-wrench-instrumentation}
+\end{figure}
 
 We recorded video data for two riders performing seven different maneuvers:
 
@@ -299,6 +334,42 @@ torques as a function of speed. There is some indication that there may be an
 underlying dependency on speed, i.e. that the maximum torques decrease as speed
 decreases.
 
+\begin{figure}
+  \centering
+  \includegraphics[width=4in]{figures/twrench-torque-histogram.pdf}
+  \caption{{\bf Histogram of the maximum recorded torques for all runs.}
+    The median is around 2 Nm with torques measured up to 5 Nm. Generated by
+    torque-wrench.R}
+  \label{fig:twrench-torque-histogram}
+\end{figure}
+
+\begin{table}
+  \caption{Maximum and minimum torques values for the different maneuvers.}
+  \begin{tabular}{lrr}
+    \toprule
+    Maneuver & Maximum Torque [Nm] & Minimum Torque [Nm] \\
+    \midrule
+    Steady Circle (r = 10m) & 3.4 & -2.4 \\
+    Steady Circle (r = 5m) & 2.4 & -2.2 \\
+    Half Circle (r = 10m) & 3.8 & -5.0 \\
+    Half Circle (r = 6m) & 3.4 & -5.0 \\
+    Lane Change (2m) & 2.9 & -2.6 \\
+    Line Tracking & 2.6 & -3.4 \\
+    Slalom & 4.5 & -4.8 \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:maneuver-torque-values}
+\end{table}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=4in]{figures/twrench-torque-speed.pdf}
+  \caption{{\bf The maximum torques as for each run as a function of speed.}
+    Generated by torque-wrench.R}
+  \label{fig:twrench-torque-speed}
+\end{figure}
+
+
 From this data, we concluded that a torque sensor with a range of $\pm10$ Nm
 should provide an adequate range with safety factor and still retain high
 enough accuracy.
@@ -316,6 +387,19 @@ torques and all forces transmitted through the handlebar or ground contact with
 a zero backlash telescoping double universal joint,
 Figure~\ref{fig:steer-torque-design}. This universal joint only transmits motion
 along the main axis and has negligible backlash.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=3in]{figures/steer-torque-design.png}
+  \caption{{\bf The steer torque sensor isolation design.} The handlebars attach to
+    the stem which is mounted in the upper bearings. The fork and steer tube
+    are mounted in the normal headset of the bicycle. Between these two sets of
+    bearings the stem is connected to the steer tube via the torque sensor and a
+    zero backlash telescoping double universal joint. The steer angle and rate
+    are measured at the steer tube and rate and acceleration of the rear frame
+    are collected with the IMU.}
+  \label{fig:steer-torque-design}
+\end{figure}
 
 The bicycle fork is mounted as normal in the headset bearings, which we will
 call the ``lower'' headset bearings. A rigid frame 4130 frame structure was
@@ -361,6 +445,23 @@ acting on the handlebar about the steer axis are the measured torque $T_M$, the
 rider applied steer torque $T_\delta$, and the friction from the upper bearing
 set $T_U$ which we describe by the sum of Coulomb $T_{U_F}$ and viscous
 friction $T_{U_V}$.
+
+\begin{figure}
+  \centering
+  \includegraphics{figures/handlebar-free-body.pdf}
+  \caption{{\bf A free body diagram of the handlebar, $G$, with all axial torques
+    shown.} The rear frame $B$ has arbitrary orientation with respect to the
+    Newtonian reference frame $N$. The handlebar rotates about $\hat{b}_3$ with
+    respect to the rear frame. Gravity $g$ is in the $\hat{n}_3$ direction. The
+    rider applies forces to the handlebars, resulting in a component of torque
+    $T_\delta$ about the steer axis. This torque is resisted by the upper
+    bearing friction $T_U$, the measured torque at the sensor $T_M$, the
+    inertia of the handlebar, and the gravitational force acting on the
+    handlebar center of mass $g_o$. The three distances, $d$, $d_{s1}$, and
+    $d_{s3}$ locate the handlebar center of mass with respect to the center of
+    the IMU.}
+  \label{fig:handlebar-free-body}
+\end{figure}
 
 We measure three components of body fixed angular rate of the bicycle rear
 frame $B$ in the Newtonian reference frame $N$ with the three IMU rate gyros.
@@ -617,17 +718,47 @@ during these experiments.
 \section*{Steer Torque Predictions}
 
 Using the equations described in section \ref{sec:steer-dynamics} and the
-estimates for the upper bearing friction in \ref{sec:bearing-friction} we
-compute the compensated steer torque for 359 trials from the data collected
-from the instrumented bicycle set presented in \cite{Moore2012}.
-Figure~\ref{fig:steer-torque-components} gives results from an example trial.
-We then compute the root mean square of the error between the torque from the
-sensor and the compensated torque for each trial. We also compute the maximum
-of the absolute value of the error for each trial and the coefficient of
-determination (i.e. $R^2$) between the compensated and uncompensated torques.
-Outliers outside of $\pm2 \sigma$ were excluded from the results. Figure
-\ref{fig:error-stats} shows the distribution of these statistics. The median
-values of the three statistics are given in Table~\ref{tab:medians}.
+estimates for the upper bearing friction coefficients in
+\ref{sec:bearing-friction} we compute the compensated steer torque for 359
+trials from the data collected from the instrumented bicycle set presented in
+\cite{Moore2012}. Figure~\ref{fig:steer-torque-components} gives results from
+an example trial. We then compute the root mean square of the error between
+the torque from the sensor and the compensated torque for each trial. We also
+compute the maximum of the absolute value of the error for each trial and the
+coefficient of determination (i.e. $R^2$) between the compensated and
+uncompensated torques. Outliers outside of $\pm2 \sigma$ were excluded from
+the results. Figure \ref{fig:error-stats} shows the distribution of these
+statistics. The median values of the three statistics are given in
+Table~\ref{tab:medians}.
+
+\begin{figure}
+  \centering
+  \includegraphics{figures/steer-torque-components.pdf}
+  \caption{{\bf Steer torque measurements and the computed compensation for Trial \#
+    700.}}
+  \label{fig:steer-torque-components}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics{figures/error-stats.pdf}
+  \caption{{\bf Histograms of the three statistics for all 359 trials.}}
+  \label{fig:error-stats}
+\end{figure}
+
+\begin{table}
+  \caption{{\bf The median and maximum value of the error statistics.}}
+  \centering
+  \begin{tabular}{lrr}
+    \hline
+    Statistic                    & Median   & Maximum \\
+    \hline
+    Coefficient of Determination & 0.728814 & 0.822647 \\
+    Maximum Error                & 2.446387 & 6.588228 \\
+    RMS of the Errors            & 0.466733 & 0.899118
+  \end{tabular}
+  \label{tab:medians}
+\end{table}
 
 \section*{Discussion}
 
@@ -665,155 +796,7 @@ experimental protocol and analysis, Gilbert Gede and Mohammed Osman for
 assistance in constructions and design, and to Ton van den Bogert for comments
 and review.
 
-\bibliographystyle{plos2009}
+\bibliographystyle{unsrt}
 \bibliography{references}
-
-\section*{Figure Legends}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=\textwidth]{figures/torque-wrench-instrumentation.png}
-  \caption{{\bf The instrumentation used to measure steering torque.}
-    The left image depicts the steer tube attachment in which the torque wrench
-    is mounted. The middle image shows the torque wrench's dial indicator,
-    including the orange needle which gives the maximum torque value. The right
-    image shows the camera mount and the handlebars with torque wrench
-    installed.
-    }
-  \label{fig:torque-wrench-instrumentation}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=4in]{figures/twrench-torque-histogram.pdf}
-  \caption{{\bf A histogram of the maximum recorded torques for all runs.}
-    The median is around 2 Nm with torques measured up to 5 Nm. Generated by
-    torque-wrench.R}
-  \label{fig:twrench-torque-histogram}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=4in]{figures/twrench-torque-speed.pdf}
-  \caption{{\bf The maximum torques as for each run as a function of speed.}
-    Generated by torque-wrench.R}
-  \label{fig:twrench-torque-speed}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics[width=3in]{figures/steer-torque-design.png}
-  \caption{{\bf The steer torque sensor isolation design.} The handlebars attach to
-    the stem which is mounted in the upper bearings. The fork and steer tube
-    are mounted in the normal headset of the bicycle. Between these two sets of
-    bearings the stem is connected to the steer tube via the torque sensor and a
-    zero backlash telescoping double universal joint. The steer angle and rate
-    are measured at the steer tube and rate and acceleration of the rear frame
-    are collected with the IMU.}
-  \label{fig:steer-torque-design}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics{figures/handlebar-free-body.pdf}
-  \caption{{\bf A free body diagram of the handlebar, $G$, with all axial torques
-    shown.} The rear frame $B$ has arbitrary orientation with respect to the
-    Newtonian reference frame $N$. The handlebar rotates about $\hat{b}_3$ with
-    respect to the rear frame. Gravity $g$ is in the $\hat{n}_3$ direction. The
-    rider applies forces to the handlebars, resulting in a component of torque
-    $T_\delta$ about the steer axis. This torque is resisted by the upper
-    bearing friction $T_U$, the measured torque at the sensor $T_M$, the
-    inertia of the handlebar, and the gravitational force acting on the
-    handlebar center of mass $g_o$. The three distances, $d$, $d_s1$, and
-    $d_s3$ locate the handlebar center of mass with respect to the center of
-    the IMU.}
-  \label{fig:handlebar-free-body}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics{figures/steer-torque-components.pdf}
-  \caption{{\bf Steer torque measurements and the computed compensation for Trial \#
-    700.}}
-  \label{fig:steer-torque-components}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-  \includegraphics{figures/error-stats.pdf}
-  \caption{{\bf Histograms of the three statistics for all 359 trials.}}
-  \label{fig:error-stats}
-\end{figure}
-
-\section*{Tables}
-
-\begin{table}[!ht]
-  \caption{Summary of Past Torque Measurments}
-  \begin{tabular}{llllllll}
-    \toprule
-    Citation                              &  Year &     Vehicle &              Type & Sensor Range [Nm] & Max Measured Torque [Nm] &                               Maneuvers & Speed [m/s] \\
-    \midrule
-    \cite{Wilson-Jones1951}               &  1951 &  motorcycle &  fixed-mechanical &                NR &                       14 &  steady circles, entering/exiting turns &          NR \\
-    \cite{Kondo1955}                      &  1955 &  motorcycle &                 ? &                 ? &                        ? &                   steady turns, turning &           ? \\
-    \cite{Watanabe1973}                   &  1973 &  motorcycle &                 ? &                 ? &                       10 &                                 evasive &          14 \\
-    \cite{Eaton1973}                      &  1973 &  motorcycle &      fixed-strain &                 ? &                      3.4 &     straight riding, roll stabilization &    6.7-13.4 \\
-    \cite{Weir1979a}                      &  1979 &  motorcycle &      float-torque &         -70 to 70 &                30 and 55 &          steady turning and lane change &        > 10 \\
-    \cite{Aoki1979}                       &  1979 &  motorcycle &                NR &                NR &                       98 &               straight, curving, slalom &       10-30 \\
-    \cite{Sugizaki1988}                   &  1988 &  motorcycle &                 ? &                 ? &                       20 &                 high speed lane changes &       17-28 \\
-    \cite{Lorenzo1997,Lorenzo1999}        &  1997 &     bicycle &      fixed-strain &       -500 to 500 &                        7 &                downhill mountain biking &         6-9 \\
-    \cite{Bortoluzzi2000,Biral2003}       &  2000 &  motorcycle &  float-cantilever &                 ? &                       20 &                  steady turning, slalom &        6-40 \\
-    \cite{James2002a,James2002,James2005} &  2002 &  motorcycle &      float-linear &         -30 to 30 &                       35 &                         straight riding &        2-19 \\
-    \cite{Cheng2003}                      &  2003 &     bicycle &  fixed-mechanical &                   &         5 (20 on 13 m/s) &                   90 degree right turns &        0-13 \\
-    \cite{Cheng2003}                      &  2003 &     bicycle &      float-linear &                84 &                 10 and 1 &          sharp turns and steady circles &         4.5 \\
-    \cite{Iuchi2006}                      &  2006 &     bicycle &       fixed-motor &                NR &                       12 &                        straight running &             \\
-    \cite{Capitani2006}                   &  2006 &     scooter &      fixed-strain &                NR &                       40 &                 lane change and turning &             \\
-    \cite{Evertse2010}                    &  2010 &  motorcycle &       fixed-grips &                   &                       40 &                       obstacle manuever &             \\
-    \cite{Teerhuis2010}                   &  2010 &  motorcycle &  float-cantilever &                NR &                       15 &                             steady turn &    8.3-12.5 \\
-    \cite{Teerhuis2010}                   &  2010 &  motorcycle &  float-cantilever &                NR &                       20 &                                  slalom &   16.4-18.1 \\
-    \cite{Ouden2011}                      &  2011 &     bicycle &  float-cantilever &                 5 &                        5 &               normal riding around town &             \\
-    \cite{Moore2012}                      &  2012 &     bicycle &  fixed-mechanical &                   &                        5 &          steady circles, lane changes,  &             \\
-    \cite{Cain2010,Cain2012}              &  2012 &     bicycle &      float-torque &    90\% oversized &                      2.4 &                            steady turns &             \\
-    \cite{Moore2012}                      &  2012 &     bicycle &      float-torque &                   &   reported in this paper &           straight riding, lane changes &             \\
-    \cite{Kageyama}                       &     ? &  motorcycle &         fixed-six &                   &                          &                                         &             \\
-    \bottomrule
-  \end{tabular}
-  \label{tab:design}
-\end{table}
-
-\begin{table}[!ht]
-  \caption{Maximum and minimum torques values for the different maneuvers.}
-  \begin{tabular}{lrr}
-    Maneuver & Maximum Torque [Nm] & Minimum Torque [Nm] \\
-    \hline
-    Steady Circle (r = 10m) & 3.4 & -2.4 \\
-    Steady Circle (r = 5m) & 2.4 & -2.2 \\
-    Half Circle (r = 10m) & 3.8 & -5.0 \\
-    Half Circle (r = 6m) & 3.4 & -5.0 \\
-    Lane Change (2m) & 2.9 & -2.6 \\
-    Line Tracking & 2.6 & -3.4 \\
-    Slalom & 4.5 & -4.8
-  \end{tabular}
-  \label{tab:maneuver-torque-values}
-\end{table}
-
-\begin{table}[!ht]
-  \caption{{\bf The median and maximum value of the error statistics.}}
-  \centering
-  \begin{tabular}{lrr}
-    \hline
-    Statistic                    & Median   & Maximum \\
-    \hline
-    Coefficient of Determination & 0.728814 & 0.822647 \\
-    Maximum Error                & 2.446387 & 6.588228 \\
-    RMS of the Errors            & 0.466733 & 0.899118
-  \end{tabular}
-  \begin{flushleft}
-    Table caption
-  \end{flushleft}
-  \label{tab:medians}
-\end{table}
-
-
-
 
 \end{document}
