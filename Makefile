@@ -4,7 +4,7 @@ BICYCLE_BIB_PATH = /home/moorepants/Research/bicycle-mechanics/Papers/bicycle.bi
 
 pdf:
 	if [ -e $(BICYCLE_BIB_PATH) ]; then \
-		python $(SUB_BIB_PATH) $(FILENAME_BASE).tex $(BICYCLE_BIB_PATH) references.bib; \
+		python $(SUB_BIB_PATH) --force $(FILENAME_BASE).tex $(BICYCLE_BIB_PATH) references.bib; \
 	fi
 	pdflatex $(FILENAME_BASE).tex
 	bibtex $(FILENAME_BASE).aux

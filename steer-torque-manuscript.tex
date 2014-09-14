@@ -54,7 +54,7 @@ frame to rotate relative to the rear frame. The rider can, of course, also use
 other more subtle biomechanical movements to influence the trajectory of the
 vehicle, especially lighter-weight ones, but it is well known that force
 applied to the handlebar give much more control authority than other means
-\cite{Weir1973?,Aoki1979,Sharp2007,Sharp2008a}. % TODO: Maybe cite Weir too
+\cite{Weir1972,Aoki1979,Sharp2007,Sharp2008a}.
 
 From a single track vehicle modeling perspective, it is easier to model the
 human/machine interface forces at the handlebar as a effectively lumped single
@@ -161,19 +161,19 @@ under 20 Nm for a motorcycle in slalom maneuvers using a floating handlebar
 plus linear load tranducer design similar in design to \cite{James2002} and
 \cite{Cheng2003}.
 
-Recently, Cain~\cite{Cain2012} developed an in-the-steer-tube torque sensor for
-a bicycle. The measured steer torques in steady turns never exceed 2.4 Nm but
-he admits that his sensor was 90\% oversized. And most recently, van den
+Recently, Cain~\cite{Cain2010,Cain2012} developed an in-the-steer-tube torque
+sensor for a bicycle. The measured steer torques in steady turns never exceed
+2.4 Nm but he admits that his sensor was 90\% oversized. van den
 Ouden~\cite{Ouden2011} developed a bicycle steer torque sensor sensor that was
 susceptible to cross talk from other handlebar loads but had a more appropriate
-measurement range of $\pm7.5$ Nm.
+measurement range of $\pm7.5$ Nm. And most recently, \cite{Appelman2012} and
+\cite{Peterson2013} developed robotic bicycles in which the steer torque could
+be estimated by the motor current and motor properties.
 
 % TODO: recheck van Ouden's measurement range and update here and in the table.
 
 % TODO : Add Kageyama's design from his robot motorcycle (email him and ask
 % what pub is best to cite)
-% TODO : Add Luke's robot motor?
-% TODO : Add Arend's steer-by-wire bicycle?
 
 Steering torque has been measured in relatively few instances of bicycle
 experiments and not that many more for motorcycles. Of these, very few of the
@@ -213,7 +213,7 @@ further be categorized.
     connects the handlebars to the front frame.~\cite{Kageyama?}
   \item[Estimated from motor power] An electrical motor connects the handlebars
     to the fork and the rider applied torque is estimated from motor current
-    and voltage.~\cite{Iuchi2006,Peterson2013,Schwab2013}
+    and voltage.~\cite{Iuchi2006,Appelman2012,Peterson2013}
 \end{description}
 
 % TODO: The mechanical type is sorta floating and sorta not. Wilson-Jones is
@@ -746,7 +746,7 @@ and review.
     \cite{Watanabe1973}                   &  1973 &  motorcycle &                 ? &                 ? &                       10 &                                 evasive &          14 \\
     \cite{Eaton1973}                      &  1973 &  motorcycle &      fixed-strain &                 ? &                      3.4 &     straight riding, roll stabilization &    6.7-13.4 \\
     \cite{Weir1979a}                      &  1979 &  motorcycle &      float-torque &         -70 to 70 &                30 and 55 &          steady turning and lane change &        > 10 \\
-    \cite{Aoki}                           &  1979 &  motorcycle &                NR &                NR &                       98 &               straight, curving, slalom &       10-30 \\
+    \cite{Aoki1979}                       &  1979 &  motorcycle &                NR &                NR &                       98 &               straight, curving, slalom &       10-30 \\
     \cite{Sugizaki1988}                   &  1988 &  motorcycle &                 ? &                 ? &                       20 &                 high speed lane changes &       17-28 \\
     \cite{Lorenzo1997,Lorenzo1999}        &  1997 &     bicycle &      fixed-strain &       -500 to 500 &                        7 &                downhill mountain biking &         6-9 \\
     \cite{Bortoluzzi2000,Biral2003}       &  2000 &  motorcycle &  float-cantilever &                 ? &                       20 &                  steady turning, slalom &        6-40 \\
