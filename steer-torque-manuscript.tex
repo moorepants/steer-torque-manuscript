@@ -563,7 +563,7 @@ function of the steer rate, Equation~\ref{eq:viscous}.
   T_{Bv} = c_B \dot{\delta}
 \end{equation}
 
-The total friction due to all of the bearings is
+The total friction due to all four bearings in the headsets is
 
 \begin{equation}
   T_B = T_{Bc} + T_{Bv}
@@ -575,15 +575,20 @@ fixed in inertial space. We then attached two parallel springs of stiffness $k$
 to the left handlebar so that the force from the springs acted through lever
 arm $l$ relative to the steer axis.
 
-This configuration allowed application of small perturbations to the handlebars
-and subsequent measurement of the damped vibrations in the steer angle, steer
-rate, and steer tube torque. The equations of motion governing the system then
-become
+% TODO : Add a diagram or image of the experimental setup.
 
+This configuration allowed application of small perturbations to the handlebars
+and subsequent measurement of the damped vibrations in the steer angle
+$\delta$, steer rate $\dot{\delta}$, and steer tube torque $T_M$. The equations
+of motion governing the system then become
+%
 \begin{equation}
   I_{HF} \ddot{\delta} + c_B \dot{\delta} + t_B
   \operatorname{sgn}(\dot{\delta}) + 2 k l^2 \delta = 0
 \end{equation}
+%
+where $I_{HF}$ is the total moment of inertia of the combined front frame and
+front wheel.
 
 We measured the lever arm and spring stiffness as 0.213 meters and $904.7 \pm
 0.6$ N/m respectively. The inertia of the handlebar, fork, and front wheel
@@ -597,10 +602,17 @@ coefficient is $c_B = 0.34 \pm 0.04$ $N \cdot m \cdot s^2$ and the Coulomb
 coefficient is $t_B = 0.15 \pm 0.05$ $N \cdot m$.
 
 To calculate the applied steer torque $T_\delta$ we need an estimate of the
-upper bearing friction $T_U$. We made the simple assumption that the friction
-in the upper and lower bearings are equal, $T_U = T_B / 2$, due to
-indeterminacy of the upper and lower bearing friction individually; see
-\cite{Moore2012} for details.
+upper bearing friction $T_U$ and at this point we only have the total friction
+from both the lower and upper bearings. We made the simple assumption that the
+friction in the upper and lower bearings are equal, $T_U = T_B / 2$, due to
+indeterminacy of the upper and lower bearing friction individually from the
+steer tube torque measurement; see \cite{Moore2012} for details. It is
+important to note that the upper bearings are preloaded, but that no other
+signficant axial loads are applied in normal riding, thus our estimate of the
+upper bearing friction is not dependent on having the wheel contact loaded
+during these experiments.
+
+% TODO : Maybe I should show a plot of one of the fits or something.
 
 \section*{Steer Torque Predictions}
 
