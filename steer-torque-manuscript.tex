@@ -255,7 +255,7 @@ Following in Wilson-Jones'~\cite{Wilson-Jones1951} and Cheng’s~\cite{Cheng2003
 footsteps, we used an accurate torque wrench as an auxiliary handlebar to get
 an idea of the maximum torques we would see during a variety of maneuvers. We
 designed a simple attachment to the steer tube that allowed easy connection of
-3/8`` torque wrenches, Figure~\ref{fig:torque-wrench-instrumentation}. A small
+3/8'' torque wrenches, Figure~\ref{fig:torque-wrench-instrumentation}. A small
 video camera was mounted to the bicycle such that it could view the dial
 indicator on the torque wrench, the handlebars, and the digital speedometer
 from a viewpoint relative to the bicycle frame,
@@ -306,15 +306,42 @@ enough accuracy.
 \section*{Isolated Steer Torque Measurement Design}
 
 Our design is based on the floating handle bar with inline torque sensor but
-takes special care to isolated the torque measurement. Our design is based
-around a Futek (Irvine, CA, USA) 150 in-lb ($\pm 17$ Nm) TFF350 torque sensor
-to ensure high accuracy for the low torques used in normal bicycle maneuvering.
-To guarantee that torques are measured only about the steer axis, we isolated
-the steer torque sensor from any of the non-axial torques and all forces
-transmitted through the handlebar or ground contact with a zero backlash
-telescoping double universal joint, Figure~\ref{fig:steer-torque-design}.
+takes special care to isolate the torque measurement from non-contributing
+loads. The best torque transducer with an appropriate accuracy and range that
+we found was a Futek (Irvine, CA, USA) 150 in-lb ($\pm 17$ Nm) TFF350 torque
+sensor. This sensor ensures high accuracy for the low torques used in normal
+bicycle maneuvering. To guarantee that torques are measured only about the
+steer axis, we isolated the steer torque sensor from any of the non-axial
+torques and all forces transmitted through the handlebar or ground contact with
+a zero backlash telescoping double universal joint,
+Figure~\ref{fig:steer-torque-design}. This universal joint only transmits motion
+along the main axis and has negligible backlash.
 
+The bicycle fork is mounted as normal in the headset bearings, which we will
+call the ``lower'' headset bearings. A rigid frame 4130 frame structure was
+welded to the bicycle frame to support the ``upper'' headset bearings. The
+handlebar's steer tube was mounted in these tapered roller bearings directly
+inline with the steer axis. The universal joint was attached to the fork's
+steer tube. The torque sensor then connected the top of the universal joint
+with the bottom of the handlebar stem. A slip clutch, which was ultimately
+disabled during all of the experiments due to backlash, was mounted between the
+pair of upper headset bearings to provide sensor overload protection. This
+effectively isolated the torque sensor from all non-steer torque contributing
+loads.
+
+Additional sensors were also mounted on the rear frame and fork for kinematic
+measurements needed for the inertial compensation. The relative angle between
+the bicycle front frame and rear frame, steer angle, was measured with a
+potentiometer. The body fixed angular rate of the front frame about the steer
+axis was measured with a rate gyro. And the body fixed 3D angular rate and 3D
+body fixed point acceleration of the rear frame was measured with an IMU.
+Details of these sensors can be found in~\cite{Moore2012}.
+
+% TODO : Report the accuracy of the sensor we chose.
 % TODO : Add universal joint company
+% TODO : Add a real picture of the final design to include beside the CAD
+% drawing.
+% TODO : Added slip clutch model and company.
 
 \section*{Steer Dynamics}
 \label{sec:steer-dynamics}
