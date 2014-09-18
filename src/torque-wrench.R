@@ -4,6 +4,9 @@
 # Description: Analyzes the data from the bicycle torque wrench experiments
 # performed on April 6, 2010.
 
+library(ggplot2)
+library(reshape2)
+
 rm(list = ls())
 
 "../figures" -> figDir
@@ -17,38 +20,36 @@ mph2mps <- 0.44704
 # inch pounds to newton meters
 inchlb2nm <- 0.112984829
 
-averageSpeed <- (data$MaxSpeed + data$MinSpeed) / 2
+data$averageSpeed <- (data$MaxSpeed + data$MinSpeed) / 2
+data$MaxTorque <- inchlb2nm * data$MaxTorque
+
+melted <- melt(data, measure.vars=c("MaxTorque", "MinTorque"))
 
 # histogram of the average run speeds
-pdf(file.path(figDir, "twrench-speed-histogram.pdf"),
-    width=4, height=4, pointsize=10)
-hist(averageSpeed)
-dev.off()
+qplot(data=data, x=averageSpeed)
+ggsave(file.path(figDir, "twrench-speed-histogram.pdf"), width=4, height=4)
 
 # histogram of the max/min torque values
-pdf(file.path(figDir, "twrench-torque-histogram.pdf"),
-    width=4, height=4, pointsize=10)
-hist(abs(c(data$MinTorque, inchlb2nm * data$MaxTorque)),
-     main ="Histogram of Torque Values",
-     xlab="Absolute value of max and min torques [Nm]",
-     breaks=25)
-dev.off()
+plot <- ggplot(melted, aes(x=abs(value))) #, binwidth=25)
+plot <- plot + xlab("Absolute value of max and min torques [Nm]")
+plot <- plot + ggtitle("Histogram of Torque Values")
+ggsave(file.path(figDir, "twrench-torque-histogram.pdf"), width=4, height=4)
 
 # torque versus speed for all the runs
-pdf(file.path(figDir, "twrench-torque-speed.pdf"),
-    width=4, height=4, pointsize=10)
-plot(0:10,-5:5, type="n", main="Max and Min Torques as a Function of Speed",
-xlab="Speed [m/s]", ylab="Torque [Nm]")
-points(mph2mps * averageSpeed, data$MinTorque, pch=19)
-points(mph2mps * averageSpeed, inchlb2nm * data$MaxTorque, pch=23)
-dev.off()
+plot <- ggplot(melted, aes(x=mph2mps * averageSpeed, value, color=Maneuver))
+plot <- plot + geom_point(size=2)
+plot <- plot + xlab('Speed [m/s]')
+plot <- plot + ylab('Torque [Nm]')
+plot <- plot + ggtitle('Max and Min Torques as a \nFunction of Average Speed')
+ggsave(file.path(figDir, "twrench-torque-speed.pdf"), width=4, height=4)
+
 
 maneuvers <- unique(data$Maneuver)
 print(maneuvers)
 for(maneuver in levels(maneuvers)){
     print(maneuver)
     pdf(file.path(figDir, paste("twrench-", maneuver, ".pdf", sep="")))
-    x <- subset(mph2mps*averageSpeed, data$Maneuver==maneuver)
+    x <- subset(mph2mps * data$averageSpeed, data$Maneuver==maneuver)
     y <- subset(data$MinTorque, data$Maneuver==maneuver)
     y2 <- subset(inchlb2nm*data$MaxTorque, data$Maneuver==maneuver)
     plot(0:10,-5:5, type="n", main=maneuver, xlab="Speed [m/s]", ylab="Torque [Nm]")
