@@ -1,13 +1,10 @@
-# Filename: torque-wrench.R
-# Date: April 6, 2010
-# Author: Jason Moore
-# Description: Analyzes the data from the bicycle torque wrench experiments
-# performed on April 6, 2010.
+# Analyzes the data from the bicycle torque wrench experiments performed on
+# April 6, 2010 and creates some plots of the results.
+
+rm(list = ls())
 
 library(ggplot2)
 library(reshape2)
-
-rm(list = ls())
 
 "../figures" -> figDir
 "../data" -> dataDir
@@ -20,38 +17,43 @@ mph2mps <- 0.44704
 # inch pounds to newton meters
 inchlb2nm <- 0.112984829
 
-data$averageSpeed <- (data$MaxSpeed + data$MinSpeed) / 2
+data$AverageSpeed <- mph2mps * (data$MaxSpeed + data$MinSpeed) / 2
 data$MaxTorque <- inchlb2nm * data$MaxTorque
 
+# combine the maximum and minimum torques into one column
 melted <- melt(data, measure.vars=c("MaxTorque", "MinTorque"))
 
 # histogram of the average run speeds
-qplot(data=data, x=averageSpeed)
+plot <- qplot(data=data, x=AverageSpeed, binwidth=0.5)
+plot <- plot + xlab('Speed [m/s]')
+plot <- plot + ylab('Number')
+plot <- plot + ggtitle('Number of Trials at Each Average Speed')
 ggsave(file.path(figDir, "twrench-speed-histogram.pdf"), width=4, height=4)
 
 # histogram of the max/min torque values
-plot <- ggplot(melted, aes(x=abs(value))) #, binwidth=25)
+plot <- qplot(data=melted, x=abs(value), binwidth=0.5)
 plot <- plot + xlab("Absolute value of max and min torques [Nm]")
+plot <- plot + ylab('Number')
 plot <- plot + ggtitle("Histogram of Torque Values")
 ggsave(file.path(figDir, "twrench-torque-histogram.pdf"), width=4, height=4)
 
 # torque versus speed for all the runs
-plot <- ggplot(melted, aes(x=mph2mps * averageSpeed, value, color=Maneuver))
+plot <- ggplot(melted, aes(x=AverageSpeed, value, color=Maneuver))
 plot <- plot + geom_point(size=2)
 plot <- plot + xlab('Speed [m/s]')
 plot <- plot + ylab('Torque [Nm]')
 plot <- plot + ggtitle('Max and Min Torques as a \nFunction of Average Speed')
 ggsave(file.path(figDir, "twrench-torque-speed.pdf"), width=4, height=4)
 
-
+# show speed vs torque for each maneuver
 maneuvers <- unique(data$Maneuver)
 print(maneuvers)
 for(maneuver in levels(maneuvers)){
     print(maneuver)
     pdf(file.path(figDir, paste("twrench-", maneuver, ".pdf", sep="")))
-    x <- subset(mph2mps * data$averageSpeed, data$Maneuver==maneuver)
+    x <- subset(data$AverageSpeed, data$Maneuver==maneuver)
     y <- subset(data$MinTorque, data$Maneuver==maneuver)
-    y2 <- subset(inchlb2nm*data$MaxTorque, data$Maneuver==maneuver)
+    y2 <- subset(data$MaxTorque, data$Maneuver==maneuver)
     plot(0:10,-5:5, type="n", main=maneuver, xlab="Speed [m/s]", ylab="Torque [Nm]")
     points(x, y)
     points(x, y2)
