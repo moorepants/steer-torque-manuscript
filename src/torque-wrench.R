@@ -43,7 +43,26 @@ plot <- plot + geom_point(size=2)
 plot <- plot + xlab('Speed [m/s]')
 plot <- plot + ylab('Torque [Nm]')
 plot <- plot + ggtitle('Max and Min Torques as a \nFunction of Average Speed')
-ggsave(file.path(figDir, "twrench-torque-speed.pdf"), width=4, height=4)
+# plot + facet_grid(. ~ Maneuver)
+ggsave(file.path(figDir, "twrench-torque-speed.pdf"), width=6, height=4)
+
+# max torque versus speed for all the runs
+plot <- ggplot(data, aes(x=AverageSpeed, MaxTorque, color=Maneuver))
+plot <- plot + geom_point(size=2)
+plot <- plot + geom_smooth(method="lm")
+plot <- plot + xlab('Speed [m/s]')
+plot <- plot + ylab('Torque [Nm]')
+plot <- plot + ggtitle('Max Torque as a \nFunction of Average Speed')
+ggsave(file.path(figDir, "twrench-max-torque-speed.pdf"), width=4, height=4)
+
+# min torque versus speed for all the runs
+plot <- ggplot(data, aes(x=AverageSpeed, MinTorque, color=Maneuver))
+plot <- plot + geom_point(size=2)
+plot <- plot + geom_smooth(method="lm")
+plot <- plot + xlab('Speed [m/s]')
+plot <- plot + ylab('Torque [Nm]')
+plot <- plot + ggtitle('Min Torque as a \nFunction of Average Speed')
+ggsave(file.path(figDir, "twrench-min-torque-speed.pdf"), width=4, height=4)
 
 # show speed vs torque for each maneuver
 maneuvers <- unique(data$Maneuver)
