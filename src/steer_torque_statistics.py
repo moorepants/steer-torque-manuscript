@@ -31,20 +31,17 @@ try:
         stats = pandas.read_hdf(filename, 'stats')
 except IOError:
     # get the paths to the data files
-    path_to_config = os.path.join(os.getcwd(), 'bicycle-data.cfg')
+    path_to_config = os.path.join(os.getcwd(), 'bdp-defaults.cfg')
     config = SafeConfigParser()
     config.read(path_to_config)
-    PATH_TO_BICYCLE_PARAMETER_DATA = \
-        config.get('data', 'PATH_TO_BICYCLE_PARAMETER_DATA')
-    PATH_TO_INSTRUMENTED_BICYCLE_DATA = \
-        config.get('data', 'PATH_TO_INSTRUMENTED_BICYCLE_DATA')
+    PATH_TO_BICYCLE_PARAMETER_DATA = config.get('data', 'pathToParameters')
 
     # select some runs
     riders = ['Charlie', 'Jason', 'Luke']
     maneuvers = ['Balance', 'Balance With Disturbance',
                  'Track Straight Line', 'Track Straight Line With Disturbance']
     environments = ['Horse Treadmill', 'Pavillion Floor']
-    data_set = bdp.DataSet(pathToDatabase=PATH_TO_INSTRUMENTED_BICYCLE_DATA)
+    data_set = bdp.DataSet()
     runs = data_set.select_runs(riders, maneuvers, environments)
 
     # initialize the data structures
@@ -128,6 +125,10 @@ def remove_outliers(num_sigma, data_frame, column_name):
 stats = remove_outliers(2, stats, 'Root Mean Square of the Error')
 stats = remove_outliers(2, stats, 'Coefficient of Determination')
 stats = remove_outliers(2, stats, 'Maximum Error')
+# TODO: new pandas version error:
+# steer_torque_statistics.py:128: SettingWithCopyWarning: A value is trying to be set on a copy of a slice from a DataFrame.
+# Try using .loc[row_index,col_indexer] = value instead
+#  stats['Coefficient of Determination'] *= 100.0
 stats['Coefficient of Determination'] *= 100.0
 
 # make a histogram of the results

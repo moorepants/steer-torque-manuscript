@@ -112,4 +112,5 @@ Tdelta = sumT.dot(G['3']) + Tm + Tu
 # of differentiating delta
 Tdelta = Tdelta.subs(deltad, wg3 - wb3)
 
-print "Tdelta as a function of the measured data:\nTdelta =", Tdelta
+msg = "Tdelta as a function of the measured data:\nTdelta = {}"
+print(msg.format(Tdelta))

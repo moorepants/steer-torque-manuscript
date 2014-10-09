@@ -12,15 +12,12 @@ import bicycledataprocessor as bdp
 import matplotlib.pyplot as plt
 
 # get the paths to the data files
-path_to_config = os.path.join(os.getcwd(), 'bicycle-data.cfg')
+path_to_config = os.path.join(os.getcwd(), 'bdp-defaults.cfg')
 config = SafeConfigParser()
 config.read(path_to_config)
-PATH_TO_BICYCLE_PARAMETER_DATA = \
-    config.get('data', 'PATH_TO_BICYCLE_PARAMETER_DATA')
-PATH_TO_INSTRUMENTED_BICYCLE_DATA = \
-    config.get('data', 'PATH_TO_INSTRUMENTED_BICYCLE_DATA')
+PATH_TO_BICYCLE_PARAMETER_DATA = config.get('data', 'pathToParameters')
 
-dataset = bdp.DataSet(pathToDatabase=PATH_TO_INSTRUMENTED_BICYCLE_DATA)
+dataset = bdp.DataSet()
 dataset.open()
 
 trial = bdp.Run('00700', dataset, PATH_TO_BICYCLE_PARAMETER_DATA,
