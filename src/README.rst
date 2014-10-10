@@ -79,14 +79,60 @@ Now create a conda environment with the needed dependencies::
 
 These need to be installed with pip::
 
-   (steer-torque-paper)$ pip install uncertainties "dynamicisttoolkit>=0.3.5"
+   (steer-torque-paper)$ pip install "uncertainties>2.0.0" "dynamicisttoolkit>=0.3.5"
    (steer-torque-paper)$ pip install "yeadon>=1.1.1" "BicycleParameters>=0.2.0"
-   (steer-torque-paper)$ pip install git+https://github.com/moorepants/BicycleDataProcessor.git
-
-TODO : Create a release of the BicycleDataProcessor and change this install
-directive.
+   (steer-torque-paper)$ pip install BicycleDataProcessor
 
 Your ``conda list`` for the environment should look somthing like::
+
+   # packages in environment at /home/moorepants/anaconda/envs/steer-torque-paper:
+   #
+   bicycledataprocessor      0.1.0                     <pip>
+   bicycleparameters         0.2.0                     <pip>
+   cairo                     1.12.2                        2
+   dateutil                  2.1                      py27_2
+   docutils                  0.12                     py27_0
+   dynamicisttoolkit         0.3.5                     <pip>
+   freetype                  2.4.10                        0
+   hdf5                      1.8.9                         1
+   ipython                   2.3.0                    py27_0
+   jinja2                    2.7.3                    py27_1
+   libpng                    1.5.13                        1
+   markupsafe                0.23                     py27_0
+   matplotlib                1.3.1                np17py27_0
+   nose                      1.3.4                    py27_0
+   numexpr                   2.0.1                np17py27_3
+   numpy                     1.7.1                    py27_2
+   numpydoc                  0.4                      py27_0
+   openssl                   1.0.1h                        1
+   pandas                    0.13.0               np17py27_0
+   pip                       1.5.6                    py27_0
+   pixman                    0.26.2                        0
+   py2cairo                  1.10.0                   py27_1
+   pyparsing                 1.5.6                    py27_0
+   pyside                    1.2.1                    py27_1
+   pytables                  2.4.0                np17py27_0
+   python                    2.7.8                         1
+   python-dateutil           1.5                       <pip>
+   pytz                      2014.7                   py27_0
+   pyyaml                    3.11                     py27_0
+   qt                        4.8.5                         0
+   readline                  6.2                           2
+   scipy                     0.13.2               np17py27_2
+   setuptools                5.8                      py27_0
+   shiboken                  1.2.1                    py27_0
+   six                       1.8.0                    py27_0
+   sphinx                    1.1.3                    py27_4
+   sqlite                    3.8.4.1                       0
+   sympy                     0.7.5                    py27_0
+   system                    5.8                           1
+   tables                    2.4.0                     <pip>
+   tk                        8.5.15                        0
+   uncertainties             2.4.6.1                   <pip>
+   wsgiref                   0.1.2                     <pip>
+   yaml                      0.1.4                         0
+   yeadon                    1.2.0                     <pip>
+   zlib                      1.2.7                         0
 
 Run the scripts
 ===============
