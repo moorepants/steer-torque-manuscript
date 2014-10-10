@@ -187,7 +187,7 @@ further categorized.
     needle to indicate the torque in real
     time.~\cite{Wilson-Jones1951,Cheng2003,Moore2012}
   \item[Simple strain gages] Strain gages are applied to the vehicle's stock
-    handlebars, typically on the steer column, to maximize ????what does this mean???? estimation of steer
+    handlebars, typically on the steer column, to allow estimation of steer
     torque.~\cite{Eaton1973,Lorenzo1997,Capitani2006}
   \item[Load cells in the grips] Multiple degree of freedom load cells connect
     the handlebar grips to the handlebar.~\cite{Evertse2010}
@@ -322,9 +322,7 @@ The histogram, Figure \ref{fig:twrench-torque-histogram}, shows that the
 maximum torque never exceeded 5 Nm in any run and Table
 \ref{tab:maneuver-torque-values} gives the maximum and minimum torques for each
 maneuver. Figure \ref{fig:twrench-torque-speed} shows all recorded
-torques as a function of speed. There is some indication that there may be an
-underlying dependency on speed, i.e. that the maximum torques decrease as speed
-decreases.  ??? is this really what the figure suggests ???
+torques as a function of speed. 
 
 \begin{figure}
   \centering
@@ -398,7 +396,7 @@ along the main axis and has negligible backlash. ??? what IS negligible???
 \end{figure}
 
 The bicycle fork is mounted as usual in the headset bearings, here
-called the ``lower''  bearings. A rigid frame 4130 ???meaning???  frame structure was
+called the ``lower''  bearings. A rigid frame structure was
 welded to the bicycle frame to support the ``upper'' headset bearings. The
 handlebar's steer tube was mounted in these tapered roller bearings directly
 in line with the steer axis. The universal joint was attached to the fork's
@@ -415,7 +413,7 @@ the bicycle front frame and rear frame, steer angle, was measured using a
 rotary potentiometer. The body fixed angular rate of the front frame about the steer
 axis was measured with a rate gyro. Body fixed 3D angular rate and 3D
 body acceleration of a fixed point  on the rear frame was measured using an IMU.
-Details of these sensors can be found in~\cite{Moore2012}. ???? Either report these details here or omit mention of the sensors.
+Details of these sensors can be found in~\cite{Moore2012}. 
 
 % TODO : Report the accuracy of the sensor we chose.
 % TODO : Add universal joint company
@@ -497,7 +495,7 @@ and the handlebar, both about the steer axis.
 \end{equation}
 
 Now we define point $s$ on the steer axis at a minimum distance $d$ from the
-center of mass $g_o$ of the handlebar.
+center of mass $g_o$ of the handlebar. The vector from $s$ to $g_o$ is given by 
 %
 \begin{equation}
   \mathbf{r}^{g_o/s} = d\hat{\mathbf{g}}_1
@@ -515,7 +513,7 @@ to gravity. This acceleration can be expressed as
   \label{eq:acceleration-of-v}
 \end{equation}
 
-The location of point $v$ is known with respect to $s$  ?????
+The location of point $s$ is known with respect to $v$ 
 %
 \begin{equation}
   \mathbf{r}^{s/v} = d_{s1}\hat{\mathbf{b}}_1 + d_{s3}\hat{\mathbf{b}}_3
@@ -523,18 +521,18 @@ The location of point $v$ is known with respect to $s$  ?????
 
 The acceleration of the handlebar center of mass, $^N\mathbf{a}^{g_o}$, can
 now be calculated using the two point theorem for acceleration \cite{Kane1985}
-twice, starting at point $v$:  ?????
 %
-\begin{equation}
-  ^N\mathbf{a}^s = {}^N\mathbf{a}^v +
-    {}^N\dot{\boldsymbol{\omega}}^B\times\mathbf{r}^{s/v} +
-    {}^N\boldsymbol{\omega}^B\times({}^N\boldsymbol{\omega}^B\times\mathbf{r}^{s/v})
-\end{equation}
-
 \begin{equation}
   ^N\mathbf{a}^{g_o} = {}^N\mathbf{a}^s +
     {}^N\dot{\boldsymbol{\omega}}^G\times\mathbf{r}^{g_o/s} +
     {}^N\boldsymbol{\omega}^G\times({}^N\boldsymbol{\omega}^G\times\mathbf{r}^{g_o/s})
+\end{equation}
+where
+
+\begin{equation}
+  ^N\mathbf{a}^s = {}^N\mathbf{a}^v +
+    {}^N\dot{\boldsymbol{\omega}}^B\times\mathbf{r}^{s/v} +
+    {}^N\boldsymbol{\omega}^B\times({}^N\boldsymbol{\omega}^B\times\mathbf{r}^{s/v})
 \end{equation}
 
 The angular momentum of the handlebar about its center of mass is defined as
