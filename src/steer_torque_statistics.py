@@ -7,7 +7,6 @@ of runs and generates some graphs."""
 
 # standard library
 import os
-from ConfigParser import SafeConfigParser
 
 # external libraries
 import numpy as np
@@ -30,11 +29,6 @@ try:
         time_series = pandas.read_hdf(filename, 'time_series')
         stats = pandas.read_hdf(filename, 'stats')
 except IOError:
-    # get the paths to the data files
-    path_to_config = os.path.join(os.getcwd(), 'bdp-defaults.cfg')
-    config = SafeConfigParser()
-    config.read(path_to_config)
-    PATH_TO_BICYCLE_PARAMETER_DATA = config.get('data', 'pathToParameters')
 
     # select some runs
     riders = ['Charlie', 'Jason', 'Luke']
@@ -59,9 +53,7 @@ except IOError:
         ts['Error'] = None
 
         try:
-            trial = bdp.Run(run, data_set, filterFreq=15.,
-                            pathToParameterData=PATH_TO_BICYCLE_PARAMETER_DATA,
-                            forceRecalc=True)
+            trial = bdp.Run(run, data_set, filterFreq=15., forceRecalc=True)
         except bdp.bdpexceptions.TimeShiftError:
 
             for k in stats.keys():
