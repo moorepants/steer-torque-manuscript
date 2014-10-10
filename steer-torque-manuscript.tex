@@ -528,7 +528,6 @@ now be calculated using the two point theorem for acceleration \cite{Kane1985}
     {}^N\boldsymbol{\omega}^G\times({}^N\boldsymbol{\omega}^G\times\mathbf{r}^{g_o/s})
 \end{equation}
 where
-
 \begin{equation}
   ^N\mathbf{a}^s = {}^N\mathbf{a}^v +
     {}^N\dot{\boldsymbol{\omega}}^B\times\mathbf{r}^{s/v} +
@@ -558,9 +557,8 @@ Now the rotational dynamic equations of motion of the handlebar can be written a
 of the torques on the handlebar about point $s$ equals the derivative of
 the angular momentum of $G$ in $N$ about $g_o$ plus the cross product of the
 position vector from $s$ to $g_o$ with the mass times the acceleration of $g_o$ in $N$
-\cite{Meriam1975}. We neglect the gravitational torque because it is already
-accounted for in the measured linear acceleration,
-Equation~\ref{eq:acceleration-of-v}.
+\cite{Meriam1975}. We neglect the torque due to the weight at $g_o$ because it
+is accounted for in the accelerometer measurement, Equation~\ref{eq:acceleration-of-v}.
 %
 \begin{equation}
   \sum \mathbf{T}^{G/s} = {}^N\dot{\mathbf{H}}^{G/g_o} +
@@ -661,6 +659,7 @@ function of steer rate, Equation~\ref{eq:viscous}.
 The total friction (due to all four headset bearings) is
 
 \begin{equation}
+  \label{eq:total-friction}
   T_B = T_{Bc} + T_{Bv}
 \end{equation}
 
@@ -711,20 +710,21 @@ during these experiments.
 
 \section*{Steer Torque Predictions}
 
-Using the equations described in the previous section \ref{sec:steer-dynamics} and 
-estimates for the upper bearing friction coefficients in
-\ref{sec:bearing-friction} ???? which ??? we compute the compensated steer torque for 359
-trials using data collected from the instrumented bicycle set presented in
-\cite{Moore2012}. Figure~\ref{fig:steer-torque-components} shows results from
-an example trial. ???? need more discussion of this fugure ????
-We then compute the root mean square of the error between
-the torque from the sensor and the compensated torque for each trial. We also
-compute the maximum of the absolute value of the error for each trial and the
-coefficient of determination (i.e. $R^2$) between the compensated and
-uncompensated torques. Outliers beyond $\pm2 \sigma$ were excluded from
-the results. ???? meaning ???? Figure \ref{fig:error-stats} shows the distribution of these
-statistics. The median values of the three statistics are given in
-Table~\ref{tab:medians}.
+Using equations \ref{eq:steer-torque}-\ref{eq:total-friction} described in the
+previous section \ref{sec:steer-dynamics} and estimates for the upper bearing
+friction coefficients in \ref{sec:bearing-friction} ???? which ??? we compute
+the compensated steer torque for 359 trials using data collected from the
+instrumented bicycle set presented in \cite{Moore2012}.
+
+Figure~\ref{fig:steer-torque-components} shows results from an example trial.
+???? need more discussion of this fugure ????  We then compute, for each trial, the root mean
+square of the error between the torque from the sensor and the compensated
+torque. We also compute the maximum of the absolute value of the
+error for each trial and the coefficient of determination (i.e. $R^2$) between
+the compensated and uncompensated torques. Outliers beyond $\pm2 \sigma$ were
+excluded from the results. ???? meaning ???? Figure \ref{fig:error-stats} shows
+the distribution of these statistics. The median values of the three statistics
+are given in Table~\ref{tab:medians}.
 
 \begin{figure}
   \centering
