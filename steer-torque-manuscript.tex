@@ -14,7 +14,7 @@
 \begin{document}
 \begin{flushleft}
   {\Large
-  \textbf{Methods for elimination of crosstalk and inertial effects in bicycle
+  \textbf{Elimination of crosstalk and inertial effects in bicycle
     steer torque estimation}
   }
   \\
@@ -34,39 +34,34 @@
 
 \section*{Introduction}
 
-To control a bicycle or motorcycle, the rider's primary means of directing the
-vehicle is the application of force to the handlebars which cause the front
-frame to rotate relative to the rear frame. The rider can, of course, also use
-other more subtle biomechanical movements to influence the trajectory of the
-vehicle, especially lighter-weight ones, but it is well known that force
-applied to the handlebar give much more control authority than other means
-\cite{Weir1972,Aoki1979,Sharp2007,Sharp2008a}.
+In bicycle and motorcycle control, the primary means of directing the
+vehicle is application of force to the handlebars, causing steering rotation between the front
+and rear frames. The rider can, of course, also use
+other more subtle biomechanical movements to influence the vehicle trajectory,
+ especially lighter-weight ones, but it is well known that force
+applied directly to the handlebars gives more control authority than other means
+\cite{Weir1972,Aoki1979,Sharp2007,Sharp2008a}. From a single track vehicle modeling perspective
+ it is easiest to consider the human/machine interface forces on the handlebar as an effectively lumped 
+torque about the steer axis, acting between the front and rear frames. 
 
-From a single track vehicle modeling perspective, it is easier to model the
-human/machine interface forces at the handlebar as a effectively lumped single
-torque about the steer axis which acts between the front and rear frames. Then
-the rider is assumed to be inertially part of the rear frame, regardless of
-whether the rider is assumed to be rigid or not.
-
-Due to this modeling assumption and the potential of easier measurements, most
+Due to this modeling assumption, most
 experimental measurements of the interface forces between the rider and the
-front frame are aimed at estimating the torque generated about the steer axis
-of the front frame relative to the rest of the system. These ``direct''
-measurements of rider applied steer torque are susceptible to error from two
-major causes: (1) the inertial effects from the portion of the front frame which is
-located between the sensor and the rider/vehicle interface and (2) cross talk
-from rider applied forces other than those which generate steer torque.
-Accounting for the error sources are particularly important when the steer
-torques are small ($<$~20 Nm or so) as seen in most bicycle maneuevers and
-certain motorcycle maneuvers.
+front frame are aimed at estimating the torque generated about the steering axis
+of the front frame. These ``direct'' measurements of rider applied steer torque are susceptible to two
+major error sources: (1) inertial effects from the portion of the front frame
+located between the sensor and the rider/vehicle interface, and (2) cross talk
+from rider-applied forces other than those which generate steer torque.
+Accounting for these error sources is particularly important when steer
+torques are small ($<$~20 Nm or so) as is the case in most bicycle, and even
+some motorcycle, maneuvers.
 
 In this paper, we review previous methods of steer torque measurement in
-bicycles and motorcycles and detail the design and implementation of a bicycle
+bicycles and motorcycles and discuss the design and implementation of a bicycle
 steer torque measurement system which minimizes the aforementioned cross talk
 errors. We then provide the computations needed to correctly compensate for
 inertial effects of the front frame and bearing friction to obtain a more
-accurate estimate of the rider applied steer torque. Finally, to show the
-necessity of this approach, we compare the differences between uncompensated
+accurate estimate of the actual rider-applied steer torque. Finally, to show the
+importance of this approach, we compare differences between uncompensated
 and compensated steer torque measurements for a large set of bicycle
 experiments.
 
@@ -74,115 +69,116 @@ experiments.
 
 % TODO: add et. al appropriately to the citations with multiple authors.
 
-The earliest single track vehicle steer torque measurements we uncovered were
-performed in 1951~\cite{Wilson-Jones1951}. Wilson-Jones developed a set of
+The earliest single track vehicle steer torque measurements were
+performed in 1951. Wilson-Jones~\cite{Wilson-Jones1951} developed a set of
 motorcycle handlebars mounted in rubber bushings that indicated the direction
-and value of torque in real time using an analog sensor much like one found in
+and value of torque in real time using an analog sensor much like 
 a modern beam-style torque wrench. He demonstrated that a torque applied in the
-opposite direction of the steer angle is utilized to enter into a turn and
-measured torques in normal maneuvers in the range of 4 to 14 Nm. Not long after
-this, Kondo~\cite{Kondo1955} was the first to record torque measurements
-electronically on a motorcycle for post-experiment analysis. Work in Japan on
-motorcycle dynamics grew considerably after World War II due to sanctions on
-aircraft research and Kageyama~\cite{Kageyama1959} and Fu~\cite{Fu1965}
-continued to improve steer torque measurements in motorcycles and studied
-torques in steady turning.
+opposite direction of the eventual steer angle is used to enter a turn and
+measured torques in normal maneuvers in the range of 4 to 14 Nm. Not long after, 
+Kondo~\cite{Kondo1955} was the first to record torque measurements electronically 
+on a motorcycle for post-experiment analysis. Work in Japan on
+motorcycle dynamics grew considerably after World War II due to limitations on
+aircraft research and Kageyama and Fu~\cite{Kageyama1959} and Fu~\cite{Fu1965}
+continued to improve motorcycle steer torque measurements and studied
+these in steady turning.
 
 % TODO: need citation on japan world war statement
 
 Eaton~\cite{Eaton1973} was the first to measure and record motorcycle steer
-torque in the United States. He attached an additional handlebar above the
-stock handlebars with strain gages that produced voltage proportional to the
-applied torque around the steer axis. The rider operated the motorcycle
-with one hand. He measured steer torques up to 3.4 Nm for straight riding for
-speeds of 15 to 30 mph. This led him to conclude that most of the measured
-steer torque was due to rider remnant, as opposed to deliberate control. Not
-long after this, Weir~\cite{Weir1979a} developed a modular torque sensor which
-could be affixed to multiple motorcycles with a $\pm$ 70 Nm range and a 1\%
-accuracy with a 10 Hz bandwidth and was careful to reduce crosstalk from other
-forces applied to the handlebars. They unfortunately oversized the sensor and
-the signal to noise ratio was low for steady turn and straight riding
-maneuvers, but they measured torques of -20 to 55 Nm in lane changes. Almost 10
-years later, Sugizaki~\cite{Sugizaki1988} measured steer torque in high speed
-motorcycle lane change maneuvers and recorded torques between -20 and 20 Nm.
+torque in the US. He attached an additional handlebar above the
+stock handlebars with strain gages that generated a voltage proportional to 
+applied torque around the steer axis, with the rider operating the motorcycle
+with one hand. He measured steer torques up to 3.4 Nm for straight riding at
+speeds from 15 to 30 mph, leading him to conclude that most of the measured
+steer torque was due to rider remnant, as opposed to deliberate control. Shortly 
+afterward, Weir, et al.~\cite{Weir1979a} developed a modular torque sensor that
+could be used on multiple motorcycles, with a $\pm$ 70 Nm range, 1\%
+accuracy and 10 Hz bandwidth. Weir was careful to reduce crosstalk from other
+forces applied to the handlebars but the sensor was unfortunately oversized. Although
+the signal to noise ratio was too low for steady turn and straight riding
+maneuvers,  torques of -20 to 55 Nm were measured in lane changes. Later
+ Sugizaki and Hasegawa~\cite{Sugizaki1988} measured steer torques in high speed
+motorcycle lane change maneuvers between -20 and 20 Nm.
 
-After close to 50 years of motorcycle steer torque measurements, the first
+After nearly 50 years of steer torque measurements on motorcycles, the first
 bicycle measurements were made by de Lorenzo~\cite{Lorenzo1997} on a downhill
-mountain bicycle which was fitted with a custom strain gauged handlebar that
+mountain bicycle fitted with a custom strain-gauged handlebar that
 could effectively measure torques about the bicycle's longitudinal and vertical
-axes. His plot of torque measurements show maximum steer torques of 7 Nm and
-maximum longitudinal handlebar torques of 15 Nm which demonstrated that
+axes. His measurements show maximum steer and longitudinal handlebar torques of 7 and
+15 Nm, respectively, demonstrating that
 non-steer related forces applied to the handlebars can be significantly higher
-that those needed for steering.
+that those used in steering.
 
-Around the turn of the 21st century, Bortoluzzi~\cite{Bortoluzzi2000} designed
+Around the turn of the 21st century, Bortoluzzi, et al. ~\cite{Bortoluzzi2000} designed
 a successful motorcycle steer torque transducer in which floating handlebars
-engage the fork through a small strain-gaged cantilever beam. This design was
-less susceptible to crosstalk than earlier designs. They found torques up to 20
-Nm for slalom maneuvers at 40 m/s. Around the same time, James~\cite{James2002}
+engage the fork through a small strain-gaged cantilever beam, which apparently was
+less susceptible to crosstalk than earlier designs. They found torques as large as 20
+Nm for slalom maneuvers at 40 m/s. About the same time, James~\cite{James2002}
 developed a secondary floating handlebar with an integrated linear load cell to
-measure steer torques in an off-road motorcycle for the purposes of identifying
-the a model that relates steer torque inputs to the vehicle's kinematics.
+measure steer torques in an off-road motorcycle to identify
+a model relating steer torque inputs to vehicle dynamics.
 
-In 2003, Cheng~\cite{Cheng2003} completed a comprehensive study on bicycle
-steer torque for an undergraduate project. Cheng started by simply attaching a
-torque wrench to a bicycle's front frame and made left turns at speeds from 0
-to 13 m/s. He found that most steering torques were under 5 Nm. He then
-designed a floating handlebar which engaged the steer tube via a linear load
-cell, very similar to James' design, configured to measure torques up to 84 Nm.
-Cheng found torques up to 1 Nm for steady turning at 4.5 m/s and up to 10 Nm
-for sharp turns, confirming that bicycles require much lower torques for
-maneuvering than motorcycles and that his sensor was quite oversized.
+In 2003, Cheng completed a comprehensive study on bicycle
+steer torque as an undergraduate project~\cite{Cheng2003}. He began by simply attaching a
+torque wrench to a bicycle front frame in left turns at speeds from 0
+to 13 m/s, and found most steering torques were less than 5 Nm. He then
+designed a floating handlebar, very similar to that of James~\cite{James2002} , 
+which engaged the steer tube via a linear load
+cell configured to measure torques up to 84 Nm.
+Cheng measured torques as large as 1 Nm and 10 Nm for steady turning at 4.5 m/s 
+and in sharp turns, repectively, confirming that bicycles require much lower torques for
+maneuvering than motorcycles and also that his sensor was considerably oversized.
 
-Iuchi~\cite{Iuchi2006} constructed a bicycle with a steer motor that ``senses''
-the rider's input for use in additive control. The rider applied steer torque
+Iuchi and Murakami~\cite{Iuchi2006} constructed a bicycle with a steer motor that ``senses''
+the rider's input for use in additive control. The rider-applied steer torque
 was estimated from the motor torque and the handlebar and motor moments of
-inertia. Capitani~\cite{Capitani2006} found measured steer torques from an
+inertia ??? what does this mean???. Capitani, et al.~\cite{Capitani2006} found measured steer torques on an
 instrumented scooter between -15 and 40 Nm. Evertse~\cite{Evertse2010} was
 perhaps the only person to estimate steer torque from sensors in the handle
-grips of a motorcycle that give force measurements directly at the
+grips of a motorcycle that measured forces directly at the
 human-vehicle interface. During his test maneuvers, a maximum of 40 Nm was
-observed. In 2010, Teerhuis~\cite{Teerhuis2010} shows measured torques just
-under 20 Nm for a motorcycle in slalom maneuvers using a floating handlebar
-plus linear load tranducer design similar in design to \cite{James2002} and
+observed. In 2010, Teerhuis and Jansen~\cite{Teerhuis2010}  measured torques just
+less than 20 Nm for a motorcycle in slalom maneuvers using a floating handlebar
+plus linear load tranducer design similar to those in \cite{James2002} and
 \cite{Cheng2003}.
 
-Recently, Cain~\cite{Cain2010,Cain2012} developed an in-the-steer-tube torque
-sensor for a bicycle. The measured steer torques in steady turns never exceed
-2.4 Nm but he admits that his sensor was 90\% oversized. van den
-Ouden~\cite{Ouden2011} developed a bicycle steer torque sensor sensor that was
-susceptible to cross talk from other handlebar loads but had a more appropriate
-measurement range of $\pm7.5$ Nm. And most recently, \cite{Appelman2012} and
-\cite{Peterson2013} developed robotic bicycles in which the steer torque could
-be estimated by the motor current and motor properties.
+Recently, Cain and Perkins~\cite{Cain2010,Cain2012} developed an in-the-steer-tube bicycle torque
+sensor. Their measured steer torques in steady turns never exceeded
+2.4 Nm. van den Ouden~\cite{Ouden2011} also developed a bicycle steer torque sensor
+susceptible to cross talk from other handlebar loads but with a somewhat more appropriate
+measurement range of $\pm7.5$ Nm. More recently, Appelman~\cite{Appelman2012} and
+Peterson~\cite{Peterson2013} developed robotic bicycles in which steer torque could
+be estimated from DC motor currents and properties.
 
 % TODO: recheck van Ouden's measurement range and update here and in the table.
 
 % TODO : Add Kageyama's design from his robot motorcycle (email him and ask
 % what pub is best to cite)
 
-Steering torque has been measured in relatively few instances of bicycle
-experiments and not that many more for motorcycles. Of these, very few of the
-designs may actually measure the true rider applied steer torque, as is defined
+Steering torque has thus been measured in relatively few bicycle
+experiments and in not that many more motorcycles experiments. Few
+designs actually measure the true rider-applied steer torque, as defined
 in most models. This is more consequential for bicycles than motorcycles
 because the small torques used in typical bicycle control are of the order of
 5-10 Nm. van den Ouden~\cite{Ouden2011}, in particular, showed how sensitive
-the torque measurements are to other handlebar loads. Also, most of these
+the torque measurements are to other handlebar loads. Most measurement 
 designs place the sensor somewhere between the rider's hands and the ground
-contact point of the wheel. This is a physically ideal way to measure the steer
-torque, but apparently no one has accounted for the dynamic inertial effects of
-the front frame above the sensor, except maybe Iuchi~\cite{Iuchi2006}.
-Evertse~\cite{Evertse2010} may have the only design which mitigates this
+contact point of the wheel. Although this may seem a natural position at which to measure steer
+torque, apparently no one  except perhaps Iuchi and Murakami~\cite{Iuchi2006} 
+has accounted for the dynamic inertial effects of the front frame above the sensor on the measurement.
+Evertse~\cite{Evertse2010} may have had the only design which mitigates this
 inertial compensation issue completely due to the proximity of the sensors to
-the rider's hands.
+the rider's hands.  
+
 
 \section*{Classification of Steer Torque Designs}
 
 The various designs mentioned in the previous section can be classified into
-two major groups: (1) those which in which the handlebars the rider interacts
+two major groups: (1) those in which the handlebars the rider interacts
 with are essentially fixed to the front frame and (2) those in which the
-handlebars float with respect to the front frame. And both of these groups can
-further be categorized.
+handlebars float with respect to the front frame. Both of these groups can be
+further categorized.
 
 \subsection*{Fixed Handlebar Designs}
 
@@ -190,8 +186,8 @@ further be categorized.
   \item[Mechanical] The rider applies a force to the handlebar which causes a
     needle to indicate the torque in real
     time.~\cite{Wilson-Jones1951,Cheng2003,Moore2012}
-  \item[Simple Strain Gages] Strain gages are applied to the vehicles stock
-    handlebars, typically on the steer column, to maximize estimation of steer
+  \item[Simple strain gages] Strain gages are applied to the vehicle's stock
+    handlebars, typically on the steer column, to maximize ????what does this mean???? estimation of steer
     torque.~\cite{Eaton1973,Lorenzo1997,Capitani2006}
   \item[Load cells in the grips] Multiple degree of freedom load cells connect
     the handlebar grips to the handlebar.~\cite{Evertse2010}
@@ -215,29 +211,29 @@ front frame through a load cell of some sort.
 
 \begin{description}
   \item[Inline torque transducer] The handlebars are separated from the fork,
-    each mounted in bearings, and the two are connected by an inline torque
+    each is mounted in bearings, and the two are connected by an inline torque
     transducer.~\cite{Weir1979a,Cain2010,Cain2012,Moore2012}
-  \item[Linear transducer] The handlebars are separated from the fork, each
+  \item[Linear transducer] The handlebars are separated from the fork, each is
     mounted in bearings, and the two are connected through a linear force
     transducer.~\cite{Cheng2003,James2002,Teerhuis2010}
   \item[Cantilever transducer] The handlebars are separated from the fork, each
-    mounted in bearings, and the two are connected through a cantilever beam
+    is mounted in bearings, and the two are connected through a cantilever beam
     force transducer.~ \cite{Bortoluzzi2000,Biral2003,Ouden2011}
 \end{description}
 
 % TODO: add all citations to these types.
 
-With this information in hand we decided to frame our design around the
-floating handlebar concept with an inline torque transducer but in such a way
+On examination of these previous efforts at steer torque measrement, we decided to use the
+floating handlebar design concept with an inline torque transducer but in such a way
 that no cross talk could affect the measurement and the inertial effects of the
 structure between the rider's hands and the sensor were properly accounted for.
-But first, we did some exploratory experiments to determine the appropriate
-range of the sensor, as there was not enough data in the literature at the time
+First, however, we did some exploratory experiments to determine the appropriate
+range for the sensor, as there was not enough data in the literature at the time
 for a confident choice.
 
 \begin{landscape}
 \begin{table}
-  \caption{Summary of Past Torque Measurments}
+  \caption{Summary of Past Steer Torque Measurments}
   \small
   \begin{tabular}{llllllll}
     \toprule
@@ -271,31 +267,31 @@ for a confident choice.
 \end{table}
 \end{landscape}
 
-\section*{Estimations of Bicycle Steer Torque Range}
+\section*{Estimation of Bicycle Steer Torque Range}
 
-Following in Wilson-Jones'~\cite{Wilson-Jones1951} and Cheng’s~\cite{Cheng2003}
-footsteps, we used an accurate torque wrench as an auxiliary handlebar to get
-an idea of the maximum torques we would see during a variety of maneuvers. We
+Following Wilson-Jones~\cite{Wilson-Jones1951} and Cheng, et al.~\cite{Cheng2003},
+ we used an accurate torque wrench as an auxiliary handlebar to obtain
+a rough idea of the maximum torques during a variety of maneuvers. We
 designed a simple attachment to the steer tube that allowed easy connection of
 3/8'' torque wrenches, Figure~\ref{fig:torque-wrench-instrumentation}. A small
-video camera was mounted to the bicycle such that it could view the dial
+video camera was mounted to the bicycle so that it could record the dial
 indicator on the torque wrench, the handlebars, and the digital speedometer
-from a viewpoint relative to the bicycle frame,
+from a viewpoint fixed in the bicycle frame,
 Figure~\ref{fig:torque-wrench-instrumentation}.  The torque wrench (CDI Torque
-Products 751LDIN) had a range of 1.7 Nm to 8.5 Nm and a accuracy of $\pm2$\% of
+Products 751LDIN) had a range of 1.7 Nm to 8.5 Nm and an accuracy of $\pm2$\% of
 full scale ($\pm0.17$ Nm) for static measurements,
 Figure~\ref{fig:torque-wrench-instrumentation}. The bicycle was a Surly 1 x 1
-and its speed was maintained by an electric hub motor (i.e. no pedaling) with
-cruise control.
+with speed maintained by an electric hub motor with
+cruise control so that no pedaling was required.
 
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figures/torque-wrench-instrumentation.png}
-  \caption{{\bf The instrumentation used to measure steering torque.}
+  \caption{{\bf Instrumentation used to measure steering torque.}
     The left image depicts the steer tube attachment in which the torque wrench
-    is mounted. The middle image shows the torque wrench's dial indicator,
-    including the orange needle which gives the maximum torque value. The right
-    image shows the camera mount and the handlebars with torque wrench
+    is mounted. The middle image shows the torque wrench dial indicator,
+    including the orange needle which stores the maximum torque value. The right
+    image shows the camera mount and handlebars with torque wrench
     installed.
     }
   \label{fig:torque-wrench-instrumentation}
@@ -304,47 +300,42 @@ cruise control.
 We recorded video data for two riders performing seven different maneuvers:
 
 \begin{itemize}
-  \item straight run into tracking a both half circles of radius 6 and 10
-    meters,
   \item tracking a straight line,
-  \item a 2 meter lane change,
-  \item a slalom with 3 meter spacing between obstacles,
-  \item and a steady circle tracking of both radius 5 and 10 meter circles.
+  \item transitions from straight running into tracking half circles of radii 6 and 10
+    m,
+  \item a 2 m lane change,
+  \item a slalom with 3 m spacing between obstacles,
+  \item and a steady tracking of circles with 5 and 10 m radius.
 \end{itemize}
 
-After completing the experiments we viewed the videos and manually noted the
-maximum and minimum torques for each run. We subjectively ignored outlier high
-torque readings from abnormal accelerations, such as those due to riding over
-bumps.
-
-We recorded the run number, the rider’s estimate of the speed after the run in
-miles per hour, the maximum value stored on the torque wrench after the run,
-the rider’s name, the maneuver type, the minimum speed seen on the video
-footage in miles per hour, the maximum speed seen on the video footage in miles
-per hour, the maximum torque seen on the video footage in inch-lbs, and the
-rotation sense for each run (+ for clockwise [right turn] and - for counter
-clockwise [left turn]). The raw data can be accessed via Figshare~\cite{}
+After the experiments we viewed the videos and manually noted the
+maximum and minimum torques for each run, subjectively ignoring outlier high
+torque readings from abnormal accelerations such as those due to riding over
+bumps. We recorded run number, rider's name, rider's speed estimate, maximum value stored on the torque wrench,
+maneuver type, minimum and maximum speeds from the video
+footage , the maximum torque from the video footage, and the
+rotation sense (clockwise [right turn] or counter
+clockwise). The raw data can be accessed via Figshare~\cite{}
 and the Internet Archive~\cite{}.
 
 The histogram, Figure \ref{fig:twrench-torque-histogram}, shows that the
-maximum torque in all runs never exceeded 5 Nm and Table
+maximum torque never exceeded 5 Nm in any run and Table
 \ref{tab:maneuver-torque-values} gives the maximum and minimum torques for each
-maneuver. Figure \ref{fig:twrench-torque-speed} shows all of the recorded
+maneuver. Figure \ref{fig:twrench-torque-speed} shows all recorded
 torques as a function of speed. There is some indication that there may be an
 underlying dependency on speed, i.e. that the maximum torques decrease as speed
-decreases.
+decreases.  ??? is this really what the figure suggests ???
 
 \begin{figure}
   \centering
   \includegraphics[width=4in]{figures/twrench-torque-histogram.pdf}
-  \caption{{\bf Histogram of the maximum recorded torques for all runs.}
-    The median is around 2 Nm with torques measured up to 5 Nm. Generated by
-    torque-wrench.R}
+  \caption{{\bf Histogram of the maximum torque-wrench recorded torques for all runs.}
+    The median is about 2 Nm with some torques measured as high as 5 Nm. }
   \label{fig:twrench-torque-histogram}
 \end{figure}
 
 \begin{table}
-  \caption{Maximum and minimum torques values for the different maneuvers.}
+  \caption{Maximum and minimum torques values for different maneuvers.}
   \begin{tabular}{lrr}
     \toprule
     Maneuver & Maximum Torque [Nm] & Minimum Torque [Nm] \\
@@ -364,68 +355,67 @@ decreases.
 \begin{figure}
   \centering
   \includegraphics[width=6in]{figures/twrench-torque-speed.pdf}
-  \caption{{\bf The maximum torques as for each run as a function of speed.}
-    Generated by torque-wrench.R}
+  \caption{{\bf Maximum  and minimum torques generated by torque-wrench for each run as a function of speed.}
+    }
   \label{fig:twrench-torque-speed}
 \end{figure}
 
-From this data, we concluded that a torque sensor with a range of $\pm10$ Nm
-should provide an adequate range with safety factor and still retain high
+From this exploratory data, we concluded that a torque sensor with a range of $\pm10$ Nm
+should give an adequate range with safety factor and still provide high
 enough accuracy.
 
 \section*{Isolated Steer Torque Measurement Design}
 
-Our design is based on the floating handle bar with inline torque sensor but
+Our design incorporates a floating handle bar with inline torque sensor but
 takes special care to isolate the torque measurement from non-contributing
-loads. The best torque transducer with an appropriate accuracy and range that
-we found was a Futek (Irvine, CA, USA) 150 in-lb ($\pm 17$ Nm) TFF350 torque
-sensor. This sensor ensures high accuracy for the low torques used in normal
+loads. The torque transducer with a range of 150 in-lb ($\pm 17$ Nm) and appropriate accuracy 
+(TFF350, Futek, Irvine, CA, USA) ensures acceptable accuracy for the low torques used in normal
 bicycle maneuvering. To guarantee that torques are measured only about the
-steer axis, we isolated the steer torque sensor from any of the non-axial
+steer axis, we isolated the steer torque sensor from non-axial
 torques and all forces transmitted through the handlebar or ground contact with
 a zero backlash telescoping double universal joint,
-Figure~\ref{fig:steer-torque-design}. This universal joint only transmits motion
-along the main axis and has negligible backlash.
+Figure~\ref{fig:steer-torque-design}. This universal joint  transmits motion only
+along the main axis and has negligible backlash. ??? what IS negligible???
 
 \begin{figure}
   \centering
   \includegraphics[width=3in]{figures/steer-torque-design.png}
-  \caption{{\bf The steer torque sensor isolation design.} The handlebars attach to
-    the stem which is mounted in the upper bearings. The fork and steer tube
-    are mounted in the normal headset of the bicycle. Between these two sets of
+  \caption{{\bf The steer torque sensor isolation design.} The handlebars (not shown) attach to
+    the stem mounted in the upper bearings. The fork and steer tube
+    are mounted in the normal bicycle headset. Between these two sets of
     bearings the stem is connected to the steer tube via the torque sensor and a
-    zero backlash telescoping double universal joint. The steer angle and rate
-    are measured at the steer tube and rate and acceleration of the rear frame
-    are collected with the IMU.}
+    zero backlash telescoping double universal joint. Steer angle and rate
+    are measured at the steer tube and the angular rate and acceleration of the rear frame
+    are measured by the IMU.}
   \label{fig:steer-torque-design}
 \end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=4in]{figures/steer-assembly.jpg}
-  \caption{{\bf Steer torque measurment assembly.} }
+  \caption{{\bf Steer torque measurement assembly.} }
   \label{fig:steer-torque-design}
 \end{figure}
 
-The bicycle fork is mounted as normal in the headset bearings, which we will
-call the ``lower'' headset bearings. A rigid frame 4130 frame structure was
+The bicycle fork is mounted as usual in the headset bearings, here
+called the ``lower''  bearings. A rigid frame 4130 ???meaning???  frame structure was
 welded to the bicycle frame to support the ``upper'' headset bearings. The
 handlebar's steer tube was mounted in these tapered roller bearings directly
-inline with the steer axis. The universal joint was attached to the fork's
+in line with the steer axis. The universal joint was attached to the fork's
 steer tube. The torque sensor then connected the top of the universal joint
-with the bottom of the handlebar stem. A slip clutch, which was ultimately
-disabled during all of the experiments due to backlash, was mounted between the
-pair of upper headset bearings to provide sensor overload protection. This
-effectively isolated the torque sensor from all non-steer torque contributing
+with the bottom of the handlebar stem. A slip clutch, ultimately
+disabled during all of the experiments due to unacceptable backlash, was mounted between the
+pair of upper headset bearings to provide possible sensor overload protection. This
+design effectively isolated the torque sensor from all non-steer torque contributing
 loads.
 
-Additional sensors were also mounted on the rear frame and fork for kinematic
-measurements needed for the inertial compensation. The relative angle between
-the bicycle front frame and rear frame, steer angle, was measured with a
-potentiometer. The body fixed angular rate of the front frame about the steer
-axis was measured with a rate gyro. And the body fixed 3D angular rate and 3D
-body fixed point acceleration of the rear frame was measured with an IMU.
-Details of these sensors can be found in~\cite{Moore2012}.
+Additional sensors were mounted on the rear frame and fork for kinematic
+measurements needed for inertial compensation. The relative angle between
+the bicycle front frame and rear frame, steer angle, was measured using a
+rotary potentiometer. The body fixed angular rate of the front frame about the steer
+axis was measured with a rate gyro. Body fixed 3D angular rate and 3D
+body acceleration of a fixed point  on the rear frame was measured using an IMU.
+Details of these sensors can be found in~\cite{Moore2012}. ???? Either report these details here or omit mention of the sensors.
 
 % TODO : Report the accuracy of the sensor we chose.
 % TODO : Add universal joint company
@@ -433,46 +423,46 @@ Details of these sensors can be found in~\cite{Moore2012}.
 % drawing.
 % TODO : Added slip clutch model and company.
 
-\section*{Steer Dynamics}
+\section*{Steering Dynamics}
 \label{sec:steer-dynamics}
 
 % TODO : Should the title of this section be ``Inertial Compensation''?
 
-The final design placed the torque sensor inline with the steer axis inbetween
-the lower and upper head set bearings. Thus, the measured torque $T_M$ from the
-sensor is not the same as the effective input torque applied by the rider. But,
+Because the final design placed the torque sensor inline with the steer axis between
+the lower and upper head set bearings, the measured torque $T_M$ from the
+sensor is not the same as the effective input torque applied by the rider. Instead
 the rider applied steer torque $T_\delta$ can be shown to be a function of the
-kinematics of both the front and rear frame and the friction torques generated
+kinematics of both the front and rear frames and friction torques generated
 by the bearings.
 
-A free body diagram can be drawn of the portion of the front frame assembly
-above the torque sensor, Figure~\ref{fig:handlebar-free-body}. The torques
+A free body diagram of the portion of the front frame assembly
+above the torque sensor is shown in Figure~\ref{fig:handlebar-free-body}. Torques
 acting on the handlebar about the steer axis are the measured torque $T_M$, the
 rider applied steer torque $T_\delta$, and the friction from the upper bearing
-set $T_U$ which we describe by the sum of Coulomb $T_{U_F}$ and viscous
-friction $T_{U_V}$.
+set $T_U$ which we approximate as a sum of Coulomb $T_{U_F}$ and viscous  $T_{U_V}$
+friction.
 
 \begin{figure}
   \centering
   \includegraphics{figures/handlebar-free-body.pdf}
-  \caption{{\bf A free body diagram of the handlebar, $G$, with all axial torques
+  \caption{{\bf Free body diagram of the handlebar, $G$, with all axial torques
     shown.} The rear frame $B$ has arbitrary orientation with respect to the
     Newtonian reference frame $N$. The handlebar rotates about $\hat{b}_3$ with
     respect to the rear frame. Gravity $g$ is in the $\hat{n}_3$ direction. The
     rider applies forces to the handlebars, resulting in a component of torque
     $T_\delta$ about the steer axis. This torque is resisted by the upper
-    bearing friction $T_U$, the measured torque at the sensor $T_M$, the
-    inertia of the handlebar, and the gravitational force acting on the
+    bearing friction $T_U$, the measured torque at the sensor $T_M$, 
+    handlebar inertia, and the gravitational force acting at the
     handlebar center of mass $g_o$. The three distances, $d$, $d_{s1}$, and
     $d_{s3}$ locate the handlebar center of mass with respect to the center of
-    the IMU.}
+    the IMU at point $v$.}
   \label{fig:handlebar-free-body}
 \end{figure}
 
-We measure three components of body fixed angular rate of the bicycle rear
-frame $B$ in the Newtonian reference frame $N$ with the three IMU rate gyros.
-Using $\mathbf{b}_{1},\mathbf{b}_{2},\mathbf{b}_{3}$ as $B$'s orthonormal unit
-vectors, this is expressed as
+We measure three body fixed components of angular velocity of the rear
+frame $B$ in the Newtonian reference frame $N$ using three IMU rate gyros.
+If $\mathbf{b}_{1},\mathbf{b}_{2},\mathbf{b}_{3}$ are three orthonormal unit
+vectors fixed in $B$, the angular velocity can be expressed as
 %
 \begin{equation}
   ^N\boldsymbol{\omega}^B = \omega_{b1}\hat{\mathbf{b}}_1 +
@@ -483,10 +473,10 @@ vectors, this is expressed as
 
 The handlebar, frame $G$, is connected to the bicycle rear frame $B$ by a
 revolute joint that rotates through the steering angle $\delta$ about the
-$\hat{\mathbf{g}_3}$ axis and we measure both the steer angle with a
-potentiometer and a component of the body fixed inertial angular rate of the
-handlebar $\omega_{g3}$ about the steer axis with a rate gyro. The angular
-velocity of the handlebar can be written as
+$\hat{\mathbf{g}_3}$ axis. We measure both the steering angle with a
+potentiometer and the component of the inertial angular rate of the
+handlebar about the steer axis $\omega_{g3}$ with a rate gyro. The inertial angular
+velocity of the handlebar can then be written as
 %
 \begin{equation}
   ^N\boldsymbol{\omega}^G =
@@ -495,27 +485,27 @@ velocity of the handlebar can be written as
     \omega_{g3}\hat{\mathbf{g}}_3
 \end{equation}
 %
-where $c_\delta$ and $s_\delta$ are shorthand for $\operatorname{cos}(\delta)$
+where $c_\delta$ and $s_\delta$ are abbreviations for $\operatorname{cos}(\delta)$
 and $\operatorname{sin}(\delta)$ respectively.
 
-The steer rate, $\dot{\delta}$, can be computed from the measurments by
-subtracting the angular rate of the bicycle rear frame about the steer axis
-from the angular rate of the handlebar about the steer axis.
+The steer rate, $\dot{\delta}$, can be computed from the measurements by
+subtracting the components of the inertial angular velocities of the bicycle rear frame 
+and the handlebar, both about the steer axis.
 %
 \begin{equation}
   \dot{\delta} \hat{\mathbf{b}}_3 = \omega_{g3} \hat{\mathbf{b}}_3 - \omega_{b3} \hat{\mathbf{b}}_3
 \end{equation}
 
-Now we define a point $s$ on the steer axis a minimum distance $d$ from the
-center of mass of the handlebar $g_o$.
+Now we define point $s$ on the steer axis at a minimum distance $d$ from the
+center of mass $g_o$ of the handlebar.
 %
 \begin{equation}
   \mathbf{r}^{g_o/s} = d\hat{\mathbf{g}}_1
 \end{equation}
 
 We also measure the body fixed acceleration of a point $v$ in $N$ on the
-bicycle frame with the IMU accelerometers which includes the acceleration due
-to gravity. This can be expressed as
+bicycle frame with the IMU accelerometers which includes an acceleration due
+to gravity. This acceleration can be expressed as
 %
 \begin{equation}
   ^N\mathbf{a}^v =
@@ -525,15 +515,15 @@ to gravity. This can be expressed as
   \label{eq:acceleration-of-v}
 \end{equation}
 
-The location of point $v$ is known with respect to $s$
+The location of point $v$ is known with respect to $s$  ?????
 %
 \begin{equation}
   \mathbf{r}^{s/v} = d_{s1}\hat{\mathbf{b}}_1 + d_{s3}\hat{\mathbf{b}}_3
 \end{equation}
 
-The acceleration of the handlebar's center of mass, $^N\mathbf{a}^{g_o}$, can
+The acceleration of the handlebar center of mass, $^N\mathbf{a}^{g_o}$, can
 now be calculated using the two point theorem for acceleration \cite{Kane1985}
-twice starting at the point $v$:
+twice, starting at point $v$:  ?????
 %
 \begin{equation}
   ^N\mathbf{a}^s = {}^N\mathbf{a}^v +
@@ -553,7 +543,7 @@ The angular momentum of the handlebar about its center of mass is defined as
   ^N\mathbf{H}^{G/g_o} = I^{G/g_o} \cdot {}^N\boldsymbol{\omega}^G
 \end{equation}
 %
-where $I^{G/g_o}$ is the inertia dyadic of the handlebar with reference to its
+where $I^{G/g_o}$ is the inertia dyadic of the handlebar with respect to its
 center of mass. We assume that the handlebar exhibits symmetry about the plane
 normal to $\hat{\mathbf{g}}_2$, simplifying the inertia dyadic to
 %
@@ -566,10 +556,10 @@ normal to $\hat{\mathbf{g}}_2$, simplifying the inertia dyadic to
     I_{G_{31}} \hat{\mathbf{g}}_3 \otimes \hat{\mathbf{g}}_1
 \end{equation}
 
-Now the dynamic equations of motion of the handlebar can be written as the sum
-of the torques on the handlebar about point $s$ is equal to the derivative of
+Now the rotational dynamic equations of motion of the handlebar can be written as the sum
+of the torques on the handlebar about point $s$ equals the derivative of
 the angular momentum of $G$ in $N$ about $g_o$ plus the cross product of the
-vector from $s$ to $g_o$ with the mass times the acceleration of $g_o$ in $N$
+position vector from $s$ to $g_o$ with the mass times the acceleration of $g_o$ in $N$
 \cite{Meriam1975}. We neglect the gravitational torque because it is already
 accounted for in the measured linear acceleration,
 Equation~\ref{eq:acceleration-of-v}.
@@ -580,14 +570,14 @@ Equation~\ref{eq:acceleration-of-v}.
 \end{equation}
 
 We are only interested in the components of the previous equation in which the
-steer torque appears, so only the torques about the steer axis are examined.
+steer torque appears, so only the torque components about the steer axis are examined.
 %
 \begin{equation}
   \sum T^{G/s}_3 = T_\delta - T_U - T_M = \left({}^N\dot{\mathbf{H}}^{G/g_o} +
   \mathbf{r}^{g_o/s} \times m_G\,{}^N\mathbf{a}^{g_o}\right) \cdot \hat{\mathbf{g}}_3
 \end{equation}
 
-At this stage the rider's applied steer torque, $T_\delta$, can be solved for,
+At this point the rider's applied steer torque, $T_\delta$, can be solved for,
 giving
 %
 \begin{align}
@@ -611,20 +601,20 @@ giving
     \label{eq:steer-torque}
 \end{align}
 
-All for the variables which are constant with respect to time in can be
-measured directly, see Table~\ref{tab:numerical-constants} for the values.
-These distance, mass, and inertia values are measured as described in
+All parameters which are constant with respect to time in can be
+found independently, see Table~\ref{tab:numerical-constants}.
+These distances, masses, and inertias are determined as described in
 \cite{Moore2012}. All time varying terms in Equation~\ref{eq:steer-torque} are
-either measured directly by the on-board sensors or can be calculated with
-numerical differentiation. The only excepton is the upper bearing frictional
-torque, $T_U$. We estimate this torque contribution through experiments
+either measured directly by the on-board sensors or can be calculated by
+numerical differentiation. The only exception is the upper bearing frictional
+torque, $T_U$. We estimate this torque contribution with experiments
 described in the following section.
 
 \begin{table}
   \centering
   \caption{Numerical values for the constant parameters in Equation
     \ref{eq:steer-torque} for the instrumented bicycle used in the experiments.
-    These values were obtained by the measurements explained in
+    These parameters were obtained using measurements explained in
     \cite{Moore2012}.}
   \begin{tabular}{lll}
     \toprule
@@ -648,12 +638,12 @@ described in the following section.
 
 In our design, the torque sensor is mounted between two sets of bearings. The
 upper set for the handlebars are tapered roller bearings and the lower are
-typical bicycle headset bearings. Each are preloaded a nominal amount during
-installation. We assume that the rotary friction due to each bearing set can be
+typical bicycle headset bearings. Each is preloaded a nominal amount during
+installation. We assume that the rotational friction torque due to each bearing set can be
 described as the sum of viscous $T_{Bv}$ and Coulomb friction $T_{Bc}$. The
-Coulomb friction can be described as a piecewise-constant function of the
-steering rate, Equation~\ref{eq:coulomb}, and viscous friction is a linear
-function of the steer rate, Equation~\ref{eq:viscous}.
+Coulomb friction is approximated as a piecewise-constant function of
+steering rate, Equation~\ref{eq:coulomb}, and viscous friction as a linear
+function of steer rate, Equation~\ref{eq:viscous}.
 
 \begin{equation}
   T_{Bc} = t_B \operatorname{sgn}(\dot\delta) =
@@ -670,24 +660,24 @@ function of the steer rate, Equation~\ref{eq:viscous}.
   T_{Bv} = c_B \dot{\delta}
 \end{equation}
 
-The total friction due to all four bearings in the headsets is
+The total friction (due to all four headset bearings) is
 
 \begin{equation}
   T_B = T_{Bc} + T_{Bv}
 \end{equation}
 
-To estimate the coefficients $t_B$ and $c_B$, we mounted the bicycle with the
+To estimate constants $t_B$ and $c_B$, we mounted the bicycle with the
 steer axis vertical, the front wheel off the ground, and the rear frame rigidly
 fixed in inertial space. We then attached two parallel springs of stiffness $k$
-to the left handlebar so that the force from the springs acted through lever
+to the left handlebar so that the restoring force from the springs acted through lever
 arm $l$ relative to the steer axis.
 
 % TODO : Add a diagram or image of the experimental setup.
 
-This configuration allowed application of small perturbations to the handlebars
-and subsequent measurement of the damped vibrations in the steer angle
+This configuration allowed application of small angular perturbations to the handlebars
+and subsequent measurement of damped vibrations in steer angle
 $\delta$, steer rate $\dot{\delta}$, and steer tube torque $T_M$. The equations
-of motion governing the system then become
+of motion governing this vibratory system are 
 %
 \begin{equation}
   I_{HF} \ddot{\delta} + c_B \dot{\delta} + t_B
@@ -695,15 +685,15 @@ of motion governing the system then become
 \end{equation}
 %
 where $I_{HF}$ is the total moment of inertia of the combined front frame and
-front wheel.
+front wheel about the steer axis.
 
 We measured the lever arm and spring stiffness as 0.213 meters and $904.7 \pm
 0.6$ N/m respectively. The inertia of the handlebar, fork, and front wheel
-about the steer axis, $I_{HF}$, was estimated based on the measurements
-described in \cite{Moore2012} and found to be $0.1297+/-0.0005$ $kg\cdot m^2$
+about the steer axis, $I_{HF}$, was estimated based on measurements
+described in \cite{Moore2012} and found to be $0.1297 \pm 0.0005$ $kg\cdot m^2$
 
-We estimated the friction coefficients with a non-linear grey box
-identification based on the measured steer angle over 15 trials in which the
+We estimated the friction coefficients using a non-linear grey box
+identification ????reference???? based on the measured steer angle vibrations over 15 trials in which the
 steering assembly was perturbed from equilibrium. The identified viscous
 coefficient is $c_B = 0.34 \pm 0.04$ $N \cdot m \cdot s^2$ and the Coulomb
 coefficient is $t_B = 0.15 \pm 0.05$ $N \cdot m$.
@@ -713,7 +703,7 @@ upper bearing friction $T_U$ and at this point we only have the total friction
 from both the lower and upper bearings. We made the simple assumption that the
 friction in the upper and lower bearings are equal, $T_U = T_B / 2$, due to
 indeterminacy of the upper and lower bearing friction individually from the
-steer tube torque measurement; see \cite{Moore2012} for details. It is
+steer tube vibration measurements; see \cite{Moore2012} for details. It is
 important to note that the upper bearings are preloaded, but that no other
 signficant axial loads are applied in normal riding, thus our estimate of the
 upper bearing friction is not dependent on having the wheel contact loaded
@@ -723,17 +713,18 @@ during these experiments.
 
 \section*{Steer Torque Predictions}
 
-Using the equations described in section \ref{sec:steer-dynamics} and the
+Using the equations described in the previous section \ref{sec:steer-dynamics} and 
 estimates for the upper bearing friction coefficients in
-\ref{sec:bearing-friction} we compute the compensated steer torque for 359
-trials from the data collected from the instrumented bicycle set presented in
-\cite{Moore2012}. Figure~\ref{fig:steer-torque-components} gives results from
-an example trial. We then compute the root mean square of the error between
+\ref{sec:bearing-friction} ???? which ??? we compute the compensated steer torque for 359
+trials using data collected from the instrumented bicycle set presented in
+\cite{Moore2012}. Figure~\ref{fig:steer-torque-components} shows results from
+an example trial. ???? need more discussion of this fugure ????
+We then compute the root mean square of the error between
 the torque from the sensor and the compensated torque for each trial. We also
 compute the maximum of the absolute value of the error for each trial and the
 coefficient of determination (i.e. $R^2$) between the compensated and
-uncompensated torques. Outliers outside of $\pm2 \sigma$ were excluded from
-the results. Figure \ref{fig:error-stats} shows the distribution of these
+uncompensated torques. Outliers beyond $\pm2 \sigma$ were excluded from
+the results. ???? meaning ???? Figure \ref{fig:error-stats} shows the distribution of these
 statistics. The median values of the three statistics are given in
 Table~\ref{tab:medians}.
 
@@ -741,7 +732,7 @@ Table~\ref{tab:medians}.
   \centering
   \includegraphics{figures/steer-torque-components.pdf}
   \caption{{\bf Steer torque measurements and the computed compensation for Trial \#
-    700.}}
+    700.  ????This figure caption needs more explanation????}}
   \label{fig:steer-torque-components}
 \end{figure}
 
@@ -759,25 +750,25 @@ Table~\ref{tab:medians}.
     \hline
     Statistic                    & Median   & Maximum \\
     \hline
-    Coefficient of Determination & 0.728814 & 0.822647 \\
-    Maximum Error                & 2.446387 & 6.588228 \\
-    RMS of the Errors            & 0.466733 & 0.899118
+    Coefficient of Determination & 0.728 & 0.822 \\
+    Maximum Error                & 2.446 & 6.588 \\
+    RMS of the Errors            & 0.466 & 0.899
   \end{tabular}
   \label{tab:medians}
 \end{table}
 
 \section*{Discussion}
 
-For the bicycle and maneuvers performed in the experiments herein we have shown
+For the bicycle and maneuvers performed in the experiments described herein we have shown
 that neglecting to compensate for inertial effects can have a large influence
-on the accuracy of the results. In particular, on median 28\% of the actual
+on the accuracy of the results. In particular, on median ??? meaning??? 28\% of the actual
 torque applied by the rider in our experiments would be neglected. This may be
 less important for motorcycles because the nominal steer torques are usually
 much larger, but this error will always be significant for measurements of low
 torque ($<$ 20 Nm or so) in any vehicle. Steer torque sensor designs should
 account for the inertial effects of the handlebars and eliminate crosstalk for
 high accuracy. Ideally, one would measure the forces at the hand/handlebar
-interface with very accurate six component load cells and inertial compensation
+interface with very accurate six-component load cells and inertial compensation
 would not be necessary. The closer the sensor is to the rider's hands the less
 important inertial compensation becomes. But if more traditional direct steer
 torque measurements are used, both inertial compensation and cross talk
