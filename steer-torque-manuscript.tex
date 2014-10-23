@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{booktabs} % for table /toprule, /midrule, etc
 \usepackage{pdflscape} % for the big table
+\usepackage{siunitx}
 
 % This file will not open in Acrobat Reader 9.x.
 % This is an attempted fix:
@@ -76,7 +77,7 @@ handlebars mounted in rubber bushings that indicated the direction and value of
 torque in real time using an analog sensor much like a modern beam-style torque
 wrench. He demonstrated that a torque applied in the opposite direction of the
 eventual steer angle is used to enter a turn and measured torques in normal
-maneuvers in the range of 4 to 14 Nm. Not long after, Kondo~\cite{Kondo1955}
+maneuvers in the range of 4 to \SI{4}{\newton\meter}. Not long after, Kondo~\cite{Kondo1955}
 was the first to record torque measurements electronically on a motorcycle for
 post-experiment analysis. Work in Japan on motorcycle dynamics grew
 considerably after World War II due to limitations on aircraft research and
@@ -93,40 +94,41 @@ hand. He measured steer torques up to 3.4 Nm for straight riding at speeds from
 15 to 30 mph, leading him to conclude that most of the measured steer torque
 was due to rider remnant, as opposed to deliberate control. Shortly afterward,
 Weir, et al.~\cite{Weir1979a} developed a modular torque sensor that could be
-used on multiple motorcycles, with a $\pm$ 70 Nm range, 1\% accuracy and 10 Hz
+used on multiple motorcycles, with a $\pm$ \SI{0}{\newton\meter} range, 1\% accuracy and 10 Hz
 bandwidth. Weir was careful to reduce crosstalk from other forces applied to
 the handlebars but the sensor was unfortunately oversized. Although the signal
 to noise ratio was too low for steady turn and straight riding maneuvers,
-torques of -20 to 55 Nm were measured in lane changes. Later Sugizaki and
+torques of -20 to \SI{5}{\newton\meter} were measured in lane changes. Later Sugizaki and
 Hasegawa~\cite{Sugizaki1988} measured steer torques in high speed motorcycle
-lane change maneuvers between -20 and 20 Nm.
+lane change maneuvers between -20 and \SI{0}{\newton\meter}.
 
 After nearly 50 years of steer torque measurements on motorcycles, the first
 bicycle measurements were made by de Lorenzo~\cite{Lorenzo1997} on a downhill
 mountain bicycle fitted with a custom strain-gauged handlebar that could
 effectively measure torques about the bicycle's longitudinal and vertical axes.
 His measurements show maximum steer and longitudinal handlebar torques of 7 and
-15 Nm, respectively, demonstrating that non-steer related forces applied to the
+\SI{5}{\newton\meter}, respectively, demonstrating that non-steer related forces applied to the
 handlebars can be significantly higher that those used in steering.
 
 Around the turn of the 21st century, Bortoluzzi, et al. ~\cite{Bortoluzzi2000}
 designed a successful motorcycle steer torque transducer in which floating
 handlebars engage the fork through a small strain-gaged cantilever beam, which
 apparently was less susceptible to crosstalk than earlier designs. They found
-torques as large as 20 Nm for slalom maneuvers at 40 m/s. About the same time,
-James~\cite{James2002} developed a secondary floating handlebar with an
-integrated linear load cell to measure steer torques in an off-road motorcycle
-to identify a model relating steer torque inputs to vehicle dynamics.
+torques as large as \SI{20}{\newton\meter} for slalom maneuvers at \SI{40}{\meter\per\second}.
+About the same time, James~\cite{James2002} developed a secondary floating
+handlebar with an integrated linear load cell to measure steer torques in an
+off-road motorcycle to identify a model relating steer torque inputs to vehicle
+dynamics.
 
 In 2003, Cheng completed a comprehensive study on bicycle steer torque as an
 undergraduate project~\cite{Cheng2003}. He began by simply attaching a torque
-wrench to a bicycle front frame in left turns at speeds from 0 to 13 m/s, and
-found most steering torques were less than 5 Nm. He then designed a floating
+wrench to a bicycle front frame in left turns at speeds from 0 to 13 $m/s$, and
+found most steering torques were less than \SI{5}{\newton\meter}. He then designed a floating
 handlebar, very similar to that of James~\cite{James2002} , which engaged the
-steer tube via a linear load cell configured to measure torques up to 84 Nm.
-Cheng measured torques as large as 1 Nm and 10 Nm for steady turning at 4.5 m/s
-and in sharp turns, repectively, confirming that bicycles require much lower
-torques for maneuvering than motorcycles and also that his sensor was
+steer tube via a linear load cell configured to measure torques up to \SI{4}{\newton\meter}.
+Cheng measured torques as large as \SI{1}{\newton\meter} and \SI{0}{\newton\meter} for steady turning at 4.5
+$m/s$ and in sharp turns, repectively, confirming that bicycles require much
+lower torques for maneuvering than motorcycles and also that his sensor was
 considerably oversized.
 
 Iuchi and Murakami~\cite{Iuchi2006} constructed a bicycle with a steer motor
@@ -134,11 +136,11 @@ that ``senses'' the rider's input for use in additive control. The
 rider-applied steer torque was estimated from the motor torque and the
 handlebar and motor moments of inertia ??? what does this mean???. Capitani, et
 al.~\cite{Capitani2006} found measured steer torques on an instrumented scooter
-between -15 and 40 Nm. Evertse~\cite{Evertse2010} was perhaps the only person
+between -15 and 40 $Nm$. Evertse~\cite{Evertse2010} was perhaps the only person
 to estimate steer torque from sensors in the handle grips of a motorcycle that
 measured forces directly at the human-vehicle interface. During his test
-maneuvers, a maximum of 40 Nm was observed. In 2010, Teerhuis and
-Jansen~\cite{Teerhuis2010}  measured torques just less than 20 Nm for a
+maneuvers, a maximum of \SI{0}{\newton\meter} was observed. In 2010, Teerhuis and
+Jansen~\cite{Teerhuis2010}  measured torques just less than \SI{0}{\newton\meter} for a
 motorcycle in slalom maneuvers using a floating handlebar plus linear load
 tranducer design similar to those in \cite{James2002} and \cite{Cheng2003}.
 
@@ -318,7 +320,7 @@ footage , the maximum torque from the video footage, and the rotation sense
 Figshare~\cite{} and the Internet Archive~\cite{}.
 
 The histogram, Figure \ref{fig:twrench-torque-histogram}, shows that the
-maximum torque never exceeded 5 Nm in any run and Table
+maximum torque never exceeded \SI{5}{\newton\meter} in any run and Table
 \ref{tab:maneuver-torque-values} gives the maximum and minimum torques for each
 maneuver. Figure \ref{fig:twrench-torque-speed} shows all recorded torques as a
 function of speed.
@@ -327,7 +329,7 @@ function of speed.
   \centering
   \includegraphics[width=4in]{figures/twrench-torque-histogram.pdf}
   \caption{{\bf Histogram of the maximum torque-wrench recorded torques for all runs.}
-    The median is about 2 Nm with some torques measured as high as 5 Nm. }
+    The median is about \SI{2}{\newton\meter} with some torques measured as high as \SI{5}{\newton\meter}. }
   \label{fig:twrench-torque-histogram}
 \end{figure}
 
@@ -764,7 +766,7 @@ influence on the accuracy of the results. In particular, on median ???
 meaning??? 28\% of the actual torque applied by the rider in our experiments
 would be neglected. This may be less important for motorcycles because the
 nominal steer torques are usually much larger, but this error will always be
-significant for measurements of low torque ($<$ 20 Nm or so) in any vehicle.
+significant for measurements of low torque ($<$ \SI{0}{\newton\meter} or so) in any vehicle.
 Steer torque sensor designs should account for the inertial effects of the
 handlebars and eliminate crosstalk for high accuracy. Ideally, one would
 measure the forces at the hand/handlebar interface with very accurate
